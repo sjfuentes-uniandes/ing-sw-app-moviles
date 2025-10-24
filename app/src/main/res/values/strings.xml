@@ -8,4 +8,10 @@
     <string name="artists">Artists</string>
     <string name="collectors">Collectors</string>
     <string name="user">User</string>
+    <string name="filter">Filter</string>
+    <string name="sort">Sort</string>
+    <string name="albums_list">Albums list</string>
+    <string name="album_cover">Album cover</string>
+    <string name="search">Search</string>
+    <string name="add_album">Add Album</string>
 </resources>
