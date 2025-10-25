@@ -57,6 +57,11 @@ class AlbumsFragment : Fragment() {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.refreshAlbums()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

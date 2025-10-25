@@ -43,6 +43,10 @@ class AlbumViewModel(application: Application): AndroidViewModel(application) {
         _isNetworkErrorShown.value = true
     }
 
+    fun refreshAlbums() {
+        refreshDataFromNetwork()
+    }
+
     class Factory(val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
             if (modelClass.isAssignableFrom(AlbumViewModel::class.java)) {
