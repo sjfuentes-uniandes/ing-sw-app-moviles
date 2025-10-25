@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white">
 
     <!-- Header with search, title, and add button -->
@@ -94,5 +95,11 @@
         android:layout_marginHorizontal="16dp"
         app:layout_constraintTop_toBottomOf="@id/filter_layout"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/albumsRv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/album_item"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
