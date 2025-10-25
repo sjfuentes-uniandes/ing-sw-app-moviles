@@ -18,4 +18,4 @@ jobs:
         distribution: 'temurin'
     
     - name: Run tests
-      run: ./gradlew test --info
+      run: ./gradlew test --console=plain
