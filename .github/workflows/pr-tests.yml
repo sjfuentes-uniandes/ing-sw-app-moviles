@@ -3,6 +3,8 @@ name: PR Tests
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  push:
+    branches: [ main, develop ]
 
 jobs:
   test:
@@ -17,5 +19,27 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
     
-    - name: Run tests
+    - name: Cache Gradle packages
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+    
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
+    
+    - name: Run unit tests
       run: ./gradlew test --console=plain
+    
+    - name: Generate test report
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        name: Unit Test Results
+        path: '**/build/test-results/test/TEST-*.xml'
+        reporter: java-junit
+        
