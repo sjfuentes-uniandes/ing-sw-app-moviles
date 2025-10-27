@@ -35,10 +35,3 @@ jobs:
     - name: Run unit tests
       run: ./gradlew test --console=plain
     
-    - name: Upload test results
-      uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: test-results
-        path: app/build/test-results/test/
-        
