@@ -8,12 +8,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.vinilos.models.Album
 import com.example.vinilos.network.NetworkServiceAdapter
+import com.example.vinilos.database.VinilosRoomDatabase
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
 
 class AlbumViewModel(application: Application): AndroidViewModel(application) {
-    private val _albums = MutableLiveData<List<Album>>()
-
-    val albums: LiveData<List<Album>>
-        get() = _albums
+    private val database = VinilosRoomDatabase.getDatabase(application)
+    private val albumsDao = database.albumsDao()
+    
+    val albums: LiveData<List<Album>> = albumsDao.getAlbums()
 
     private var _eventNetworkError = MutableLiveData<Boolean>(false)
 
@@ -31,9 +34,11 @@ class AlbumViewModel(application: Application): AndroidViewModel(application) {
 
     private fun refreshDataFromNetwork(){
         NetworkServiceAdapter.getInstance(getApplication()).getAlbums({
-            _albums.postValue(it)
-            _eventNetworkError.value = false
-            _isNetworkErrorShown.value = false
+            viewModelScope.launch(Dispatchers.IO) {
+                albumsDao.insertAll(it)
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            }
         },{
             _eventNetworkError.value = true
         })

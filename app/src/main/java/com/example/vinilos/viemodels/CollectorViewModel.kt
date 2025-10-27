@@ -7,14 +7,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.lifecycle.viewModelScope
 import com.example.vinilos.models.Collector
 import com.example.vinilos.network.NetworkServiceAdapter
+import com.example.vinilos.database.VinilosRoomDatabase
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.Dispatchers
 
 class CollectorViewModel(application: Application): AndroidViewModel(application) {
-    private val _collectors = MutableLiveData<List<Collector>>()
-
-    val collectors: LiveData<List<Collector>>
-        get() = _collectors
+    private val database = VinilosRoomDatabase.getDatabase(application)
+    private val collectorsDao = database.collectorsDao()
+    
+    val collectors: LiveData<List<Collector>> = collectorsDao.getCollectors()
 
     private  var _eventNetworkError = MutableLiveData<Boolean>(false)
 
@@ -32,9 +36,11 @@ class CollectorViewModel(application: Application): AndroidViewModel(application
 
     private fun refreshDataFromNetwork(){
         NetworkServiceAdapter.getInstance(getApplication()).getCollectors({
-            _collectors.postValue(it)
-            _eventNetworkError.value = false
-            _isNetworkErrorShown.value = false
+            viewModelScope.launch(Dispatchers.IO) {
+                collectorsDao.insertAll(it)
+                _eventNetworkError.postValue(false)
+                _isNetworkErrorShown.postValue(false)
+            }
         },{
             _eventNetworkError.value = true
         })
