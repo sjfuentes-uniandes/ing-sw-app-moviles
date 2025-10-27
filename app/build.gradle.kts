@@ -36,6 +36,21 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    dataBinding {
+        enable = true
+    }
+    sourceSets {
+        getByName("main") {
+            java.srcDirs("src/main/java")
+        }
+        getByName("test") {
+            java.srcDirs("src/test/java")
+        }
+        getByName("androidTest") {
+            java.srcDirs("src/androidTest/java")
+        }
+    }
+
 }
 
 dependencies {
@@ -49,6 +64,13 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     testImplementation(libs.junit)
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation("androidx.test:runner:1.6.2")
+    androidTestImplementation("androidx.test:rules:1.6.0")
+    implementation("com.android.volley:volley:1.2.1")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }
