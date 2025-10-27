@@ -9,6 +9,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.vinilos.models.Album
+import com.example.vinilos.models.Collector
 import org.json.JSONArray
 import org.json.JSONObject
 import java.nio.file.Path
@@ -43,6 +44,25 @@ class NetworkServiceAdapter constructor(context: Context){
                         releaseDate = item.getString("releaseDate"),
                         genre = item.getString("genre"),
                         description = item.getString("description")))
+                }
+                onComplete(list)
+            },
+            {
+                onError(it)
+            }))
+    }
+
+    fun getCollectors(onComplete:(resp:List<Collector>)->Unit, onError: (error:VolleyError)->Unit){
+        requestQueue.add(getRequest("collectors",
+            { response ->
+                val resp = JSONArray(response)
+                val list = mutableListOf<Collector>()
+                for (i in 0 until resp.length()){
+                    val item = resp.getJSONObject(i)
+                    list.add(i, Collector(collectorId = item.getInt("id"),
+                        name = item.getString("name"),
+                        telephone = item.getString("telephone"),
+                        email = item.getString("email")))
                 }
                 onComplete(list)
             },

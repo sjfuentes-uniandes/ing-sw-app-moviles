@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_home_to_albums"
             app:destination="@id/navigation_albums" />
+        <action
+            android:id="@+id/action_home_to_collectors"
+            app:destination="@id/navigation_collector" />
     </fragment>
     <fragment
         android:id="@+id/navigation_albums"
@@ -26,9 +29,9 @@
         tools:layout="@layout/fragment_dashboard" />
     <fragment
         android:id="@+id/navigation_collector"
-        android:name="com.example.vinilos.ui.notifications.NotificationsFragment"
+        android:name="com.example.vinilos.ui.collectors.CollectorsFragment"
         android:label="Collectors"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_collectors" />
     <fragment
         android:id="@+id/navigation_user"
         android:name="com.example.vinilos.ui.notifications.NotificationsFragment"

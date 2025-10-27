@@ -53,5 +53,18 @@
             android:focusable="true"
             android:elevation="2dp" />
 
+        <TextView
+            android:id="@+id/btn_collectors"
+            android:layout_width="240dp"
+            android:layout_height="56dp"
+            android:text="@string/collectors"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:background="@drawable/rounded_border"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:elevation="2dp" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

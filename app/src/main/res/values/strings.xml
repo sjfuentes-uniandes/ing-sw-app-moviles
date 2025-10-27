@@ -15,4 +15,6 @@
     <string name="search">Search</string>
     <string name="add_album">Add Album</string>
     <string name="homepage">Homepage</string>
+    <string name="add_collector">Add Collector</string>
+    <string name="collector_image">Collector picture</string>
 </resources>

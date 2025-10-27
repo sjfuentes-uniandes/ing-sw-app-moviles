@@ -5,8 +5,8 @@
     tools:ignore="NamespaceTypo">
     <data>
         <variable
-            name="album"
-            type="com.example.vinilos.models.Album" />
+            name="collector"
+            type="com.example.vinilos.models.Collector" />
     </data>
 
     <LinearLayout
@@ -16,18 +16,18 @@
         android:padding="8dp">
 
         <ImageView
-            android:id="@+id/albumCover"
+            android:id="@+id/collectorImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
             android:background="@color/white"
-            android:contentDescription="@string/album_cover" />
+            android:contentDescription="@string/collector_image"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@{album.recordLabel}"
+            android:text="@{collector.email}"
             android:textSize="14sp"
             android:textColor="@android:color/darker_gray" />
 
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{album.name}"
+            android:text="@{collector.name}"
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/black" />
