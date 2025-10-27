@@ -87,22 +87,23 @@
 
     </LinearLayout>
 
-    <!-- Container for collectors list -->
-    <FrameLayout
-        android:id="@+id/collectors_container"
+    <!-- SwipeRefreshLayout for pull-to-refresh -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="80dp"
         app:layout_constraintTop_toBottomOf="@id/filter_layout"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/collectorsRv"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="16dp"
-        app:layout_constraintTop_toBottomOf="@id/filter_layout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/collector_item"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/collectorsRv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/collector_item"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

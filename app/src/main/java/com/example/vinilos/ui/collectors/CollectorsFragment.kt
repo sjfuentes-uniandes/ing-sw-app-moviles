@@ -38,6 +38,10 @@ class CollectorsFragment: Fragment() {
         recyclerView = binding.collectorsRv
         recyclerView.layoutManager = GridLayoutManager(context, 2)
         recyclerView.adapter = viewModelAdapter
+        
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.refreshCollectors()
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -50,6 +54,7 @@ class CollectorsFragment: Fragment() {
         viewModel.collectors.observe(viewLifecycleOwner, Observer<List<Collector>> {
             it.apply {
                 viewModelAdapter!!.collectors = this
+                binding.swipeRefresh.isRefreshing = false
             }
         })
         viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean>{ isNetworkError ->

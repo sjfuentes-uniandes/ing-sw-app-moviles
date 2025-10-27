@@ -38,6 +38,10 @@ class AlbumsFragment : Fragment() {
         recyclerView = binding.albumsRv
         recyclerView.layoutManager = GridLayoutManager(context, 2)
         recyclerView.adapter = viewModelAdapter
+        
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.refreshAlbums()
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -50,6 +54,7 @@ class AlbumsFragment : Fragment() {
         viewModel.albums.observe(viewLifecycleOwner, Observer<List<Album>> {
             it.apply {
                 viewModelAdapter!!.albums = this
+                binding.swipeRefresh.isRefreshing = false
             }
         })
         viewModel.eventNetworkError.observe(viewLifecycleOwner, Observer<Boolean> { isNetworkError ->
