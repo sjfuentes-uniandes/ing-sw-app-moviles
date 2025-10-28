@@ -38,8 +38,8 @@ class AlbumsAdapter: RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
             
             Glide.with(binding.root.context)
                 .load(album.cover)
-                .placeholder(R.drawable.placeholder_album)
-                .error(R.drawable.placeholder_album)
+                .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.placeholder_image)
                 .into(binding.albumCover)
                 
             binding.executePendingBindings()

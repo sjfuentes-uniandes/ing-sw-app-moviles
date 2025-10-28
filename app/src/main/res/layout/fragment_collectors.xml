@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/albums"
+            android:text="@string/collectors"
             android:textSize="28sp"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -41,7 +41,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@drawable/add_circle"
-            android:contentDescription="@string/add_album"
+            android:contentDescription="@string/add_collector"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:padding="4dp" />
 
@@ -98,11 +98,11 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/albumsRv"
+            android:id="@+id/collectorsRv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
-            tools:listitem="@layout/album_item"/>
+            tools:listitem="@layout/collector_item"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
