@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.hasMinimumChildCount
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -80,23 +81,27 @@ class GetCollectorsListWithBar {
         
 
 
+        // Verify RecyclerView has at least one item loaded from backend
+        onView(withId(R.id.collectorsRv))
+            .check(matches(hasMinimumChildCount(1)))
+
         val textView2 = onView(
             allOf(
-                withText("Jaime Andrés Monsalve"),
+                withText("Manolo Bellon"),
                 withParent(withParent(withId(R.id.collectorsRv))),
                 isDisplayed()
             )
         )
-        textView2.check(matches(withText("Jaime Andrés Monsalve")))
+        textView2.check(matches(withText("Manolo Bellon")))
 
         val textView3 = onView(
             allOf(
-                withText("j.monsalve@gmail.com"),
+                withText("manollo@caracol.com.co"),
                 withParent(withParent(withId(R.id.collectorsRv))),
                 isDisplayed()
             )
         )
-        textView3.check(matches(withText("j.monsalve@gmail.com")))
+        textView3.check(matches(withText("manollo@caracol.com.co")))
     }
 
     private fun childAtPosition(
