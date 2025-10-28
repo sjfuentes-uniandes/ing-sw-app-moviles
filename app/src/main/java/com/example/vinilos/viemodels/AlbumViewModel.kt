@@ -9,14 +9,18 @@ import androidx.lifecycle.MutableLiveData
 import com.example.vinilos.models.Album
 import com.example.vinilos.network.NetworkServiceAdapter
 import com.example.vinilos.database.VinilosRoomDatabase
+import com.example.vinilos.repository.AlbumRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 
 class AlbumViewModel(application: Application): AndroidViewModel(application) {
     private val database = VinilosRoomDatabase.getDatabase(application)
-    private val albumsDao = database.albumsDao()
+    private val repository = AlbumRepository(
+        database.albumsDao(), 
+        NetworkServiceAdapter.getInstance(application)
+    )
     
-    val albums: LiveData<List<Album>> = albumsDao.getAlbums()
+    val albums: LiveData<List<Album>> = repository.getAlbums()
 
     private var _eventNetworkError = MutableLiveData<Boolean>(false)
 
@@ -33,15 +37,16 @@ class AlbumViewModel(application: Application): AndroidViewModel(application) {
     }
 
     private fun refreshDataFromNetwork(){
-        NetworkServiceAdapter.getInstance(getApplication()).getAlbums({
-            viewModelScope.launch(Dispatchers.IO) {
-                albumsDao.insertAll(it)
-                _eventNetworkError.postValue(false)
-                _isNetworkErrorShown.postValue(false)
-            }
-        },{
-            _eventNetworkError.value = true
-        })
+        viewModelScope.launch {
+            repository.refreshAlbums()
+                .onSuccess {
+                    _eventNetworkError.postValue(false)
+                    _isNetworkErrorShown.postValue(false)
+                }
+                .onFailure {
+                    _eventNetworkError.postValue(true)
+                }
+        }
     }
 
     fun onNetworkErrorShown() {

@@ -11,14 +11,18 @@ import androidx.lifecycle.viewModelScope
 import com.example.vinilos.models.Collector
 import com.example.vinilos.network.NetworkServiceAdapter
 import com.example.vinilos.database.VinilosRoomDatabase
+import com.example.vinilos.repository.CollectorRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers
 
 class CollectorViewModel(application: Application): AndroidViewModel(application) {
     private val database = VinilosRoomDatabase.getDatabase(application)
-    private val collectorsDao = database.collectorsDao()
+    private val repository = CollectorRepository(
+        database.collectorsDao(), 
+        NetworkServiceAdapter.getInstance(application)
+    )
     
-    val collectors: LiveData<List<Collector>> = collectorsDao.getCollectors()
+    val collectors: LiveData<List<Collector>> = repository.getCollectors()
 
     private  var _eventNetworkError = MutableLiveData<Boolean>(false)
 
@@ -35,15 +39,16 @@ class CollectorViewModel(application: Application): AndroidViewModel(application
     }
 
     private fun refreshDataFromNetwork(){
-        NetworkServiceAdapter.getInstance(getApplication()).getCollectors({
-            viewModelScope.launch(Dispatchers.IO) {
-                collectorsDao.insertAll(it)
-                _eventNetworkError.postValue(false)
-                _isNetworkErrorShown.postValue(false)
-            }
-        },{
-            _eventNetworkError.value = true
-        })
+        viewModelScope.launch {
+            repository.refreshCollectors()
+                .onSuccess {
+                    _eventNetworkError.postValue(false)
+                    _isNetworkErrorShown.postValue(false)
+                }
+                .onFailure {
+                    _eventNetworkError.postValue(true)
+                }
+        }
     }
 
     fun onNetworkErrorShown(){
