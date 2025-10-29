@@ -33,6 +33,10 @@ class HomeFragment : Fragment() {
         binding.btnCollectors.setOnClickListener {
             (activity as MainActivity).binding.navView.selectedItemId = R.id.navigation_collector
         }
+
+        binding.btnArtist.setOnClickListener {
+            (activity as MainActivity).binding.navView.selectedItemId = R.id.navigation_artists_list
+        }
     }
 
     override fun onDestroyView() {
