@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/artist_image"
+        android:layout_width="72dp"
+        android:layout_height="66dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.ExtraExtraLarge"
+        tools:src="@tools:sample/avatars" />
+
+    <LinearLayout
+        android:id="@+id/artist_info_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toEndOf="@id/artist_image"
+        app:layout_constraintTop_toTopOf="@id/artist_image"
+        app:layout_constraintBottom_toBottomOf="@id/artist_image"
+        app:layout_constraintEnd_toStartOf="@id/follow_button">
+
+        <TextView
+            android:id="@+id/artist_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            tools:text="The Cure" />
+
+        <ImageView
+            android:id="@+id/artist_verified_check"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginStart="4dp"
+            android:src="@drawable/verified_24px"
+            android:visibility="visible"
+            app:tint="?attr/colorPrimary" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/follow_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/follow"
+        android:layout_marginStart="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/artist_image"
+        app:layout_constraintBottom_toBottomOf="@id/artist_image" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

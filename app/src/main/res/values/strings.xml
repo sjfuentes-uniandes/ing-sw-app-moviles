@@ -17,4 +17,5 @@
     <string name="homepage">Homepage</string>
     <string name="add_collector">Add Collector</string>
     <string name="collector_image">Collector picture</string>
+    <string name="follow">Follow</string>
 </resources>
