@@ -18,4 +18,7 @@
     <string name="add_collector">Add Collector</string>
     <string name="collector_image">Collector picture</string>
     <string name="follow">Follow</string>
+    <string name="verified_artist">Verified artist</string>
+    <string name="add_artist">Add artist</string>
+    <string name="artist_image">Artist image</string>
 </resources>
