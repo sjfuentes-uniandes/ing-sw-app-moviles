@@ -30,6 +30,9 @@ class ArtistsViewModel(application: Application) : AndroidViewModel(application)
         get() = _eventNetworkError
     private var _isNetworkErrorShown = MutableLiveData<Boolean>(false)
 
+    val isNetworkErrorShown: LiveData<Boolean>
+        get() = _isNetworkErrorShown
+
     init {
         refreshDataFromNetwork()
     }

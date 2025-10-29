@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:ignore="NamespaceTypo"
+    >
+
+    <data>
+        <variable
+            name="artist"
+            type="com.example.vinilos.models.Artist" />
+    </data>
+
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/artist_image"
@@ -15,7 +24,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.ExtraExtraLarge"
-        tools:src="@tools:sample/avatars" />
+        tools:src="@{artist.image}" />
 
     <LinearLayout
         android:id="@+id/artist_info_container"
@@ -35,7 +44,7 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textStyle="normal"
-            tools:text="The Cure" />
+            tools:text="@{artist.name}" />
 
         <ImageView
             android:id="@+id/artist_verified_check"
@@ -59,4 +68,4 @@
         app:layout_constraintTop_toTopOf="@id/artist_image"
         app:layout_constraintBottom_toBottomOf="@id/artist_image" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

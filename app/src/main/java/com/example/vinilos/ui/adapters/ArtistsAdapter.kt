@@ -1,19 +1,44 @@
-package com.example.vinilos.ui.artists
+package com.example.vinilos.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.vinilos.R
 import com.example.vinilos.databinding.ArtistItemBinding
 import com.example.vinilos.models.Artist
 
-class ArtistsAdapter(private var artists: List<Artist>) :
+class ArtistsAdapter :
     RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>() {
 
-    class ArtistViewHolder(val binding: ArtistItemBinding) : RecyclerView.ViewHolder(binding.root)
+        var artists:List<Artist> = emptyList()
+            set(value){
+                field = value
+                notifyDataSetChanged()
+            }
+
+    class ArtistViewHolder(val binding: ArtistItemBinding) : RecyclerView.ViewHolder(binding.root){
+        fun bind(artist: Artist) {
+            binding.artist = artist
+
+            Glide.with(binding.root.context)
+                .load(artist.image)
+                .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.placeholder_image)
+                .into(binding.artistImage)
+
+            binding.executePendingBindings()
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtistViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ArtistItemBinding.inflate(inflater, parent, false)
+        val binding: ArtistItemBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(parent.context),
+            R.layout.artist_item,
+            parent,
+            false
+        )
         return ArtistViewHolder(binding)
     }
 
@@ -22,21 +47,8 @@ class ArtistsAdapter(private var artists: List<Artist>) :
      */
     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
         val artist = artists[position]
-
-        // Usando ViewBinding (binding) para acceder a las vistas
-        holder.binding.artistName.text = artist.name
-
-        // (Aquí iría la lógica para cargar la imagen con Glide o Picasso)
-        // Glide.with(holder.itemView.context).load(artist.imageUrl).into(holder.binding.artistImage)
-
-        // Lógica para el check de verificado
-        // holder.binding.artistVerifiedCheck.visibility = if (artist.isVerified) View.VISIBLE else View.GONE
+        holder.bind(artist)
     }
 
     override fun getItemCount(): Int = artists.size
-
-    fun updateData(newArtists: List<Artist>) {
-        artists = newArtists
-        notifyDataSetChanged()
-    }
 }
