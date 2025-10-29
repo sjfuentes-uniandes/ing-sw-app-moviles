@@ -6,11 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.vinilos.models.Album
 import com.example.vinilos.models.Collector
+import com.example.vinilos.models.Artist
 
-@Database(entities = [Album::class, Collector::class], version = 1, exportSchema = false)
+@Database(entities = [Album::class, Collector::class, Artist::class], version = 1, exportSchema = false)
 abstract class VinilosRoomDatabase : RoomDatabase() {
     abstract fun albumsDao(): AlbumsDao
     abstract fun collectorsDao(): CollectorsDao
+    abstract fun artistsDao(): ArtistsDao
 
     companion object {
         @Volatile

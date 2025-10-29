@@ -9,6 +9,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.vinilos.models.Album
+import com.example.vinilos.models.Artist
 import com.example.vinilos.models.Collector
 import org.json.JSONArray
 import org.json.JSONObject
@@ -70,6 +71,37 @@ class NetworkServiceAdapter constructor(context: Context){
                 onError(it)
             }))
     }
+
+    fun getArtists(
+        onComplete: (resp: List<Artist>) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        requestQueue.add(
+            getRequest(
+            "bands", { response ->
+                    val resp = JSONArray(response)
+                    val list = mutableListOf<Artist>()
+                    val artists = (0 until resp.length()).map { a ->
+                        val item = resp.getJSONObject(a)
+                        Artist(
+                            artistId = item.getInt("id"),
+                            image = item.getString("image"),
+                            name = item.getString("name"),
+                            description = item.getString("description"),
+                            creationDate = item.getString("creationDate")
+                        )
+                    }
+
+                    list.addAll(artists)
+
+                    onComplete(list)
+            },
+            {
+                onError(it)
+            }
+        ))
+    }
+
 
     private fun getRequest(path:String, responseListener: Response.Listener<String>, errorListener: Response.ErrorListener): StringRequest {
         return StringRequest(Request.Method.GET, BASE_URL+path, responseListener,errorListener)
