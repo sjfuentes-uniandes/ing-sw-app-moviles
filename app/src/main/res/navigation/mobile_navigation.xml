@@ -16,6 +16,10 @@
         <action
             android:id="@+id/action_home_to_collectors"
             app:destination="@id/navigation_collector" />
+
+        <action
+            android:id="@+id/action_home_to_artist"
+            app:destination="@id/navigation_artists_list" />
     </fragment>
     <fragment
         android:id="@+id/navigation_albums"
@@ -37,5 +41,10 @@
         android:name="com.example.vinilos.ui.notifications.NotificationsFragment"
         android:label="User"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_artists_list"
+        android:name="com.example.vinilos.ui.artists.ArtistsFragment"
+        android:label="Artistas" tools:layout="@layout/fragment_artists" />
 
 </navigation>
