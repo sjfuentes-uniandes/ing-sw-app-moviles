@@ -36,8 +36,7 @@ class HomeFragment : Fragment() {
         }
 
         binding.btnArtist.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_artist)
-            (activity as MainActivity).binding.navView.selectedItemId = R.id.navigation_artists_list
+            (activity as MainActivity).binding.navView.selectedItemId = R.id.navigation_artists
         }
     }
 
