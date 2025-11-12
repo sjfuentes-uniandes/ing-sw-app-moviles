@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <!-- Toolbar modificado para centrar el título -->
+    <!-- 1. Toolbar (Fijo en la parte superior) -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -19,7 +19,6 @@
         app:elevation="0dp"
         app:navigationIcon="@drawable/ic_chevron_izq" >
 
-        <!-- TextView para el título centrado -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,7 +31,7 @@
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <!-- El resto del contenido -->
+    <!-- 2. Contenedor de Scroll (Ocupa el resto del espacio) -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nested_scroll_view"
         android:layout_width="0dp"
@@ -41,11 +40,16 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/create_album_button">
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:clipToPadding="false"
+        android:paddingBottom="72dp"
+        >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <!-- 3. Contenido del Formulario (Ahora un LinearLayout) -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:padding="16dp">
 
             <!-- Name -->
@@ -55,31 +59,23 @@
                 android:layout_height="wrap_content"
                 android:text="Name"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:textSize="16sp"/>
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/name_edit_text"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Insert album name"
                 android:inputType="textCapSentences"
                 android:background="@android:color/transparent"
                 android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                app:layout_constraintTop_toBottomOf="@id/name_label"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:paddingBottom="16dp"/>
 
             <View
                 android:id="@+id/divider1"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/material_grey_300"
-                app:layout_constraintTop_toBottomOf="@id/name_edit_text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:background="@color/material_grey_300"/>
 
             <!-- Artist (Spinner) -->
             <TextView
@@ -89,9 +85,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Artist"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/divider1"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:textSize="16sp"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/artist_menu"
@@ -101,10 +95,7 @@
                 android:layout_marginTop="8dp"
                 app:boxBackgroundColor="@color/material_grey_100"
                 app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
-                app:layout_constraintTop_toBottomOf="@id/artist_label"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:boxStrokeWidthFocused="0dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/artist_auto_complete"
@@ -122,31 +113,23 @@
                 android:layout_marginTop="16dp"
                 android:text="Description"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/artist_menu"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:textSize="16sp"/>
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/description_edit_text"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Insert album description"
                 android:inputType="textCapSentences"
                 android:background="@android:color/transparent"
                 android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                app:layout_constraintTop_toBottomOf="@id/description_label"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:paddingBottom="16dp"/>
 
             <View
                 android:id="@+id/divider2"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/material_grey_300"
-                app:layout_constraintTop_toBottomOf="@id/description_edit_text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:background="@color/material_grey_300" />
 
             <!-- Genre -->
             <TextView
@@ -156,31 +139,23 @@
                 android:layout_marginTop="16dp"
                 android:text="Genre"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/divider2"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:textSize="16sp"/>
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/genre_edit_text"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Insert album genre"
                 android:inputType="textCapSentences"
                 android:background="@android:color/transparent"
                 android:paddingTop="16dp"
-                android:paddingBottom="16dp"
-                app:layout_constraintTop_toBottomOf="@id/genre_label"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:paddingBottom="16dp"/>
 
             <View
                 android:id="@+id/divider3"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/material_grey_300"
-                app:layout_constraintTop_toBottomOf="@id/genre_edit_text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:background="@color/material_grey_300" />
 
             <!-- Release Date -->
             <TextView
@@ -190,13 +165,11 @@
                 android:layout_marginTop="16dp"
                 android:text="Release date"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/divider3"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:textSize="16sp"/>
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/release_date_edit_text"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Insert album release date"
                 android:inputType="none"
@@ -206,21 +179,15 @@
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
                 android:drawableEnd="@drawable/ic_calendar"
-                android:drawablePadding="8dp"
-                app:layout_constraintTop_toBottomOf="@id/release_date_label"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                android:drawablePadding="8dp"/>
 
             <View
                 android:id="@+id/divider4"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/material_grey_300"
-                app:layout_constraintTop_toBottomOf="@id/release_date_edit_text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:background="@color/material_grey_300" />
 
-            <!-- Album Image -->
+            <!-- Album Image Label -->
             <TextView
                 android:id="@+id/album_image_label"
                 android:layout_width="wrap_content"
@@ -228,36 +195,37 @@
                 android:layout_marginTop="16dp"
                 android:text="Album image"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/divider4"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:textSize="16sp"/>
 
-            <ImageView
-                android:id="@+id/album_image_preview"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="8dp"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/placeholder_image"
-                app:layout_constraintTop_toBottomOf="@id/album_image_label"
-                app:layout_constraintStart_toStartOf="parent"
-                android:contentDescription="Album cover preview" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/browse_image_button"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="0dp"
+            <!-- Contenedor Horizontal para Imagen y Botón -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="Browse album image"
-                android:textColor="@android:color/black"
-                app:strokeColor="@color/material_grey_300"
-                app:layout_constraintTop_toTopOf="@id/album_image_preview"
-                app:layout_constraintBottom_toBottomOf="@id/album_image_preview"
-                app:layout_constraintStart_toEndOf="@id/album_image_preview"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical">
 
-            <!-- Tracks -->
+                <ImageView
+                    android:id="@+id/album_image_preview"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/placeholder_image"
+                    android:contentDescription="Album cover preview" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/browse_image_button"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Browse album image"
+                    android:textColor="@android:color/black"
+                    app:strokeColor="@color/material_grey_300" />
+
+            </LinearLayout>
+
+            <!-- Tracks Label -->
             <TextView
                 android:id="@+id/tracks_label"
                 android:layout_width="wrap_content"
@@ -265,9 +233,7 @@
                 android:layout_marginTop="24dp"
                 android:text="Tracks"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/album_image_preview"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:textSize="16sp"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/track_menu"
@@ -277,10 +243,7 @@
                 android:layout_marginTop="8dp"
                 app:boxBackgroundColor="@color/material_grey_100"
                 app:boxStrokeWidth="0dp"
-                app:boxStrokeWidthFocused="0dp"
-                app:layout_constraintTop_toBottomOf="@id/tracks_label"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:boxStrokeWidthFocused="0dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/track_auto_complete"
@@ -293,31 +256,26 @@
             <!-- RecyclerView para la lista de tracks -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tracks_recycler_view"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:nestedScrollingEnabled="false"
-                app:layout_constraintTop_toBottomOf="@id/track_menu"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 tools:listitem="@layout/list_item_track"
                 tools:itemCount="2"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- BOTÓN DE CREAR (DENTRO DEL SCROLL) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/create_album_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create album"
+                android:backgroundTint="@android:color/black"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp" />
+
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-    <!-- Botón fijo en la parte inferior -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/create_album_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Create album"
-        android:backgroundTint="@android:color/black"
-        android:textColor="@android:color/white"
-        android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

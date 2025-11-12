@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vinilos.databinding.FragmentAddAlbumsBinding
+import com.example.vinilos.ui.adapters.Track
+import com.example.vinilos.ui.adapters.TrackAdapter
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -21,8 +23,8 @@ class AddAlbumFragment: Fragment() {
     private val binding get() = _binding!!
 
     // Adapter para la lista de tracks
-   // private lateinit var trackAdapter: TrackAdapter
-    //private val trackList = mutableListOf<Track>()
+    private lateinit var trackAdapter: TrackAdapter
+    private val trackList = mutableListOf<Track>()
 
     // ActivityResultLauncher para el selector de imágenes
     private val pickImageLauncher =
@@ -114,12 +116,12 @@ class AddAlbumFragment: Fragment() {
      */
     private fun setupRecyclerView() {
         // Inicializa el adapter con la lambda para el botón de borrar
-      /*  trackAdapter = TrackAdapter { trackToRemove ->
+        trackAdapter = TrackAdapter { trackToRemove ->
             trackList.remove(trackToRemove)
             trackAdapter.submitList(trackList.toList()) // Actualiza la lista (enviando una nueva)
         }
         binding.tracksRecyclerView.adapter = trackAdapter
-        binding.tracksRecyclerView.layoutManager = LinearLayoutManager(requireContext())*/
+        binding.tracksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     /**
@@ -127,9 +129,9 @@ class AddAlbumFragment: Fragment() {
      */
     private fun addTrackToList(trackName: String) {
         // Usamos el timestamp como un ID único de ejemplo
-/*        val newTrack = Track(id = System.currentTimeMillis().toString(), name = trackName)
+        val newTrack = Track(id = System.currentTimeMillis().toString(), name = trackName)
         trackList.add(newTrack)
-        trackAdapter.submitList(trackList.toList()) // Actualiza el RecyclerView*/
+        trackAdapter.submitList(trackList.toList()) // Actualiza el RecyclerView
     }
 
     /**
