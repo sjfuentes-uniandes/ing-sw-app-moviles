@@ -28,7 +28,6 @@ class TrackAdapter(private val onDeleteClick: (Track) -> Unit): ListAdapter<Trac
         holder.bind(track, onDeleteClick)
     }
 
-    // ViewHolder que "sostiene" la vista de cada item
     class TrackViewHolder(private val binding: ListItemTrackBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -40,7 +39,6 @@ class TrackAdapter(private val onDeleteClick: (Track) -> Unit): ListAdapter<Trac
         }
     }
 
-    // DiffUtil para animaciones y actualizaciones eficientes
     class TrackDiffCallback : DiffUtil.ItemCallback<Track>() {
         override fun areItemsTheSame(oldItem: Track, newItem: Track): Boolean {
             return oldItem.id == newItem.id

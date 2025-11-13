@@ -157,6 +157,32 @@
                 android:layout_height="1dp"
                 android:background="@color/material_grey_300" />
 
+            <!-- Record Label -->
+            <TextView
+                android:id="@+id/record_label_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Record Label"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/record_label_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Insert record label"
+                android:inputType="textCapSentences"
+                android:background="@android:color/transparent"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"/>
+
+            <View
+                android:id="@+id/divider3_5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/material_grey_300" />
+
             <!-- Release Date -->
             <TextView
                 android:id="@+id/release_date_label"

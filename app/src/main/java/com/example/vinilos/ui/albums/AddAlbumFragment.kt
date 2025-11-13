@@ -1,4 +1,5 @@
 package com.example.vinilos.ui.albums
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,30 +8,35 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vinilos.databinding.FragmentAddAlbumsBinding
+import com.example.vinilos.models.Artist
 import com.example.vinilos.ui.adapters.Track
 import com.example.vinilos.ui.adapters.TrackAdapter
+import com.example.vinilos.viemodels.AlbumViewModel
+import com.example.vinilos.viemodels.ArtistsViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 
 class AddAlbumFragment: Fragment() {
-    // ViewBinding para acceder a las vistas de forma segura
     private var _binding: FragmentAddAlbumsBinding? = null
     private val binding get() = _binding!!
-
-    // Adapter para la lista de tracks
     private lateinit var trackAdapter: TrackAdapter
     private val trackList = mutableListOf<Track>()
+    private lateinit var albumViewModel: AlbumViewModel
+    private lateinit var artistsViewModel: ArtistsViewModel
+    private var selectedImageUri: Uri? = null
+    private var selectedArtist: Artist? = null
 
-    // ActivityResultLauncher para el selector de imágenes
     private val pickImageLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            // Cuando el usuario selecciona una imagen, se actualiza el ImageView
             uri?.let {
+                selectedImageUri = it
                 binding.albumImagePreview.setImageURI(it)
             }
         }
@@ -46,64 +52,88 @@ class AddAlbumFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Llamamos a todas nuestras funciones de configuración
         setupToolbar()
-        setupSpinners()
         setupClickListeners()
         setupRecyclerView()
+
+        val activity = requireActivity()
+        albumViewModel = ViewModelProvider(this, AlbumViewModel.Factory(activity.application))[AlbumViewModel::class.java]
+        artistsViewModel = ViewModelProvider(this, ArtistsViewModel.Factory(activity.application))[ArtistsViewModel::class.java]
+
+        artistsViewModel.artist.observe(viewLifecycleOwner, Observer<List<Artist>> { artists ->
+            setupSpinners(artists)
+        })
+
+        albumViewModel.createAlbumResult.observe(viewLifecycleOwner, Observer { result ->
+            result?.let {
+                if (it.isSuccess) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Álbum se creó exitosamente",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    findNavController().popBackStack()
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Error creating album: ${it.exceptionOrNull()?.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        })
+
+        artistsViewModel.refreshArtists()
     }
 
-    /**
-     * Configura el Toolbar.
-     * El título y el ícono se definen en el XML, aquí solo manejamos el clic.
-     */
     private fun setupToolbar() {
         binding.toolbar.setNavigationOnClickListener {
-            // Navegar hacia atrás
             findNavController().popBackStack()
         }
     }
 
-    /**
-     * Configura los menús desplegables (Spinners).
-     */
-    private fun setupSpinners() {
-        // Datos de ejemplo para los menús
-        val artists = arrayOf("Artist 1", "Artist 2", "Artist 3", "Other")
+    private fun setupSpinners(artists: List<Artist>) {
+        val artistNames = artists.map { it.name }
         val tracksForDropdown = arrayOf("Demo Track A", "Demo Track B", "Demo Track C")
 
-        // Adapter para el menú de Artistas
-        val artistAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, artists)
+        val artistAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, artistNames)
         binding.artistAutoComplete.setAdapter(artistAdapter)
 
         // Adapter para el menú de Tracks
         val trackDropdownAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, tracksForDropdown)
         binding.trackAutoComplete.setAdapter(trackDropdownAdapter)
 
-        // Listener para cuando se selecciona un track del menú
+        binding.artistAutoComplete.setOnItemClickListener { _, _, position, _ ->
+            selectedArtist = artists[position]
+        }
+
         binding.trackAutoComplete.setOnItemClickListener { parent, _, position, _ ->
             val selectedTrackName = parent.getItemAtPosition(position).toString()
             addTrackToList(selectedTrackName)
-            binding.trackAutoComplete.text.clear() // Limpiar el campo después de añadir
+            binding.trackAutoComplete.text.clear()
             binding.trackAutoComplete.clearFocus()
+        }
+
+        binding.trackAutoComplete.setOnEditorActionListener { _, _, _ ->
+            val trackName = binding.trackAutoComplete.text.toString().trim()
+            if (trackName.isNotEmpty()) {
+                addTrackToList(trackName)
+                binding.trackAutoComplete.text.clear()
+                binding.trackAutoComplete.clearFocus()
+            }
+            true
         }
     }
 
-    /**
-     * Configura los listeners para los botones y campos interactivos.
-     */
     private fun setupClickListeners() {
-        // Listener para el campo de fecha
         binding.releaseDateEditText.setOnClickListener {
             showDatePicker()
         }
 
-        // Listener para el botón de buscar imagen
         binding.browseImageButton.setOnClickListener {
-            pickImageLauncher.launch("image/*") // Abre el selector de archivos de imagen
+            pickImageLauncher.launch("image/*")
         }
 
-        // Listener para el botón de crear álbum
         binding.createAlbumButton.setOnClickListener {
             if (validateForm()) {
                 createAlbum()
@@ -111,32 +141,22 @@ class AddAlbumFragment: Fragment() {
         }
     }
 
-    /**
-     * Configura el RecyclerView para mostrar la lista de tracks.
-     */
     private fun setupRecyclerView() {
-        // Inicializa el adapter con la lambda para el botón de borrar
         trackAdapter = TrackAdapter { trackToRemove ->
             trackList.remove(trackToRemove)
-            trackAdapter.submitList(trackList.toList()) // Actualiza la lista (enviando una nueva)
+            trackAdapter.submitList(trackList.toList())
         }
         binding.tracksRecyclerView.adapter = trackAdapter
         binding.tracksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    /**
-     * Añade un nuevo track a la lista interna y actualiza el adapter.
-     */
+
     private fun addTrackToList(trackName: String) {
-        // Usamos el timestamp como un ID único de ejemplo
         val newTrack = Track(id = System.currentTimeMillis().toString(), name = trackName)
         trackList.add(newTrack)
-        trackAdapter.submitList(trackList.toList()) // Actualiza el RecyclerView
+        trackAdapter.submitList(trackList.toList())
     }
 
-    /**
-     * Muestra el diálogo de selección de fecha (MaterialDatePicker).
-     */
     private fun showDatePicker() {
         val datePicker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Select release date")
@@ -144,63 +164,118 @@ class AddAlbumFragment: Fragment() {
             .build()
 
         datePicker.addOnPositiveButtonClickListener { selection ->
-            // Formatea la fecha seleccionada (Ej: 25/12/2024)
-            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            binding.releaseDateEditText.setText(sdf.format(selection))
+            val displayFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            binding.releaseDateEditText.setText(displayFormat.format(selection))
         }
 
         datePicker.show(parentFragmentManager, "DATE_PICKER_TAG")
     }
 
-    /**
-     * Valida que los campos requeridos no estén vacíos.
-     */
+    private fun formatDateForAPI(dateString: String): String {
+        return try {
+            val displayFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val date = displayFormat.parse(dateString)
+            // Backend expects format: "1984-08-01T00:00:00-05:00"
+            date?.let {
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val datePart = dateFormat.format(it)
+                // Append time and timezone: T00:00:00-05:00
+                "${datePart}T00:00:00-05:00"
+            } ?: dateString
+        } catch (e: Exception) {
+            dateString
+        }
+    }
+
     private fun validateForm(): Boolean {
         var isValid = true
 
         if (binding.nameEditText.text.isNullOrEmpty()) {
-            binding.nameEditText.error = "Name is required"
+            binding.nameEditText.error = "El Nombre es requerido"
+            isValid = false
+        } else {
+            binding.nameEditText.error = null
+        }
+
+        if (binding.artistAutoComplete.text.isNullOrEmpty() || selectedArtist == null) {
+            binding.artistAutoComplete.error = "El Artista es requerido"
+            isValid = false
+        } else {
+            binding.artistAutoComplete.error = null
+        }
+
+        if (binding.descriptionEditText.text.isNullOrEmpty()) {
+            binding.descriptionEditText.error = "La descripción es requerida"
+            isValid = false
+        } else {
+            binding.descriptionEditText.error = null
+        }
+
+        if (binding.genreEditText.text.isNullOrEmpty()) {
+            binding.genreEditText.error = "Genero es requerido"
+            isValid = false
+        } else {
+            binding.genreEditText.error = null
+        }
+
+        if (binding.recordLabelEditText.text.isNullOrEmpty()) {
+            binding.recordLabelEditText.error = "Discografia es requerida"
+            isValid = false
+        } else {
+            binding.recordLabelEditText.error = null
+        }
+
+        if (binding.releaseDateEditText.text.isNullOrEmpty()) {
+            binding.releaseDateEditText.error = "Fecha de lanzamiento es requerida"
+            isValid = false
+        } else {
+            binding.releaseDateEditText.error = null
+        }
+
+        if (selectedImageUri == null) {
+            Toast.makeText(requireContext(), "Por favor seleccione una imagen", Toast.LENGTH_SHORT).show()
             isValid = false
         }
-        if (binding.artistAutoComplete.text.isNullOrEmpty()) {
-            binding.artistAutoComplete.error = "Artist is required"
+
+        if (trackList.isEmpty()) {
+            Toast.makeText(requireContext(), "Añade al menos una pista.", Toast.LENGTH_SHORT).show()
             isValid = false
         }
-        // ... (puedes añadir más validaciones aquí) ...
 
         return isValid
     }
 
-    /**
-     * Lógica a ejecutar cuando se presiona "Create Album".
-     */
     private fun createAlbum() {
-        // Aquí recolectarías toda la información
-   /*     val name = binding.nameEditText.text.toString()
-        val artist = binding.artistAutoComplete.text.toString()
-        val description = binding.descriptionEditText.text.toString()
-        val genre = binding.genreEditText.text.toString()
-        val releaseDate = binding.releaseDateEditText.text.toString()
-        // ... también necesitarías la URI de la imagen y la lista de tracks ...
+        val name = binding.nameEditText.text.toString().trim()
+        val description = binding.descriptionEditText.text.toString().trim()
+        val genre = binding.genreEditText.text.toString().trim()
+        val recordLabel = binding.recordLabelEditText.text.toString().trim()
+        val releaseDateString = binding.releaseDateEditText.text.toString().trim()
 
-        val tracksCount = trackList.size
+        val releaseDate = formatDateForAPI(releaseDateString)
 
-        // Muestra un mensaje de confirmación
-        Toast.makeText(
-            requireContext(),
-            "Album '$name' by $artist created with $tracksCount tracks!",
-            Toast.LENGTH_LONG
-        ).show()
-*/
-        // Opcional: navegar hacia atrás después de crear
-        // findNavController().popBackStack()
+        // Backend expects a valid HTTP/HTTPS URL, not a local URI
+        // For now, use a placeholder URL. In production, you'd need to upload the image first
+        val cover = "https://via.placeholder.com/300"
+
+
+        val tracks = trackList.map { track ->
+            mapOf("name" to track.name)
+        }
+
+        albumViewModel.createAlbum(
+            name = name,
+            cover = cover,
+            releaseDate = releaseDate,
+            description = description,
+            genre = genre,
+            recordLabel = recordLabel,
+            tracks = tracks
+        )
     }
 
-    /**
-     * Limpia la referencia de binding cuando la vista se destruye.
-     */
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null // ¡Importante para evitar memory leaks!
+        _binding = null
     }
 }

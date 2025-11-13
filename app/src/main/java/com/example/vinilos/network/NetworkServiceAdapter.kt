@@ -8,6 +8,7 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import android.util.Log
 import com.example.vinilos.models.Album
 import com.example.vinilos.models.Artist
 import com.example.vinilos.models.Collector
@@ -102,6 +103,106 @@ class NetworkServiceAdapter constructor(context: Context){
         ))
     }
 
+
+    fun createAlbum(
+        name: String,
+        cover: String,
+        releaseDate: String,
+        description: String,
+        genre: String,
+        recordLabel: String,
+        tracks: List<Map<String, String>>,
+        onComplete: (album: Album) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+
+        val jsonBody = JSONObject().apply {
+            put("name", name)
+            put("cover", cover)
+            put("releaseDate", releaseDate)
+            put("description", description)
+            put("genre", genre)
+            put("recordLabel", recordLabel)
+        }
+
+        val requestBody = jsonBody.toString()
+        
+        val request = object : StringRequest(
+            Request.Method.POST,
+            BASE_URL + "albums",
+            { response ->
+                try {
+                    Log.d("NetworkServiceAdapter", "Raw response received: $response")
+                    val jsonResponse = JSONObject(response)
+                    Log.d("NetworkServiceAdapter", "Parsed JSON response: ${jsonResponse.toString()}")
+                    val album = Album(
+                        albumId = jsonResponse.getInt("id"),
+                        name = jsonResponse.getString("name"),
+                        cover = jsonResponse.getString("cover"),
+                        recordLabel = jsonResponse.getString("recordLabel"),
+                        releaseDate = jsonResponse.getString("releaseDate"),
+                        genre = jsonResponse.getString("genre"),
+                        description = jsonResponse.getString("description")
+                    )
+                    onComplete(album)
+                } catch (e: Exception) {
+                    Log.e("NetworkServiceAdapter", "Error parsing response: ${e.message}", e)
+                    Log.e("NetworkServiceAdapter", "Response was: $response")
+                    onError(VolleyError("Error parsing response: ${e.message}", e))
+                }
+            },
+            { error ->
+                val errorMessage = when {
+                    error.networkResponse != null -> {
+                        val statusCode = error.networkResponse.statusCode
+                        val errorBody = try {
+                            String(error.networkResponse.data, Charsets.UTF_8)
+                        } catch (e: Exception) {
+                            "Could not parse error body"
+                        }
+                        Log.e("NetworkServiceAdapter", "Network error: Status $statusCode, Body: $errorBody")
+                        "HTTP $statusCode: $errorBody"
+                    }
+                    error.message != null -> {
+                        Log.e("NetworkServiceAdapter", "Volley error: ${error.message}")
+                        error.message ?: "Unknown error"
+                    }
+                    else -> {
+                        Log.e("NetworkServiceAdapter", "Unknown error: ${error.javaClass.simpleName}")
+                        "Could not retrieve response code from HttpUrlConnection"
+                    }
+                }
+                onError(VolleyError(errorMessage, error))
+            }
+        ) {
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Content-Type"] = "application/json; charset=utf-8"
+                headers["Accept"] = "application/json"
+                return headers
+            }
+
+            override fun getBody(): ByteArray {
+                return requestBody.toByteArray(Charsets.UTF_8)
+            }
+
+            override fun getBodyContentType(): String {
+                return "application/json; charset=utf-8"
+            }
+        }
+
+        // Increase timeout significantly for Render.com which can be slow
+        request.retryPolicy = com.android.volley.DefaultRetryPolicy(
+            30000, // 30 seconds timeout (Render.com can be slow)
+            2, // 2 retries
+            com.android.volley.DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+
+        Log.d("NetworkServiceAdapter", "Sending POST request to: ${BASE_URL}albums")
+        Log.d("NetworkServiceAdapter", "Request body: ${jsonBody.toString()}")
+
+        requestQueue.add(request)
+    }
 
     private fun getRequest(path:String, responseListener: Response.Listener<String>, errorListener: Response.ErrorListener): StringRequest {
         return StringRequest(Request.Method.GET, BASE_URL+path, responseListener,errorListener)
