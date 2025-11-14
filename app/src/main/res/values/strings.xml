@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Vinilos</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string name="home">Home</string>
     <string name="albums">Albums</string>
     <string name="artists">Artists</string>
@@ -10,7 +8,6 @@
     <string name="user">User</string>
     <string name="filter">Filter</string>
     <string name="sort">Sort</string>
-    <string name="albums_list">Albums list</string>
     <string name="album_cover">Album cover</string>
     <string name="search">Search</string>
     <string name="add_album">Add Album</string>
@@ -19,6 +16,5 @@
     <string name="collector_image">Collector picture</string>
     <string name="follow">Follow</string>
     <string name="verified_artist">Verified artist</string>
-    <string name="add_artist">Add artist</string>
     <string name="artist_image">Artist image</string>
 </resources>
