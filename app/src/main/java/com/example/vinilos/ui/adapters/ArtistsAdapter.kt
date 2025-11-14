@@ -9,17 +9,18 @@ import com.example.vinilos.R
 import com.example.vinilos.databinding.ArtistItemBinding
 import com.example.vinilos.models.Artist
 
-class ArtistsAdapter :
-    RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>() {
+class ArtistsAdapter(
+    private val onArtistClick: (Artist) -> Unit
+) : RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>() {
 
-        var artists:List<Artist> = emptyList()
-            set(value){
-                field = value
-                notifyDataSetChanged()
-            }
+    var artists: List<Artist> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
-    class ArtistViewHolder(val binding: ArtistItemBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(artist: Artist) {
+    class ArtistViewHolder(val binding: ArtistItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(artist: Artist, onArtistClick: (Artist) -> Unit) {
             binding.artist = artist
 
             Glide.with(binding.root.context)
@@ -27,6 +28,10 @@ class ArtistsAdapter :
                 .placeholder(R.drawable.placeholder_image)
                 .error(R.drawable.placeholder_image)
                 .into(binding.artistImage)
+
+            binding.root.setOnClickListener {
+                onArtistClick(artist)
+            }
 
             binding.executePendingBindings()
         }
@@ -42,12 +47,9 @@ class ArtistsAdapter :
         return ArtistViewHolder(binding)
     }
 
-    /**
-     * *poblar* una fila con datos.
-     */
     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
         val artist = artists[position]
-        holder.bind(artist)
+        holder.bind(artist, onArtistClick)
     }
 
     override fun getItemCount(): Int = artists.size
