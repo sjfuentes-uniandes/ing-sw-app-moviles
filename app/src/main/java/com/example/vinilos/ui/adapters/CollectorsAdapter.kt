@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -14,8 +15,14 @@ import com.example.vinilos.models.Collector
 class CollectorsAdapter: RecyclerView.Adapter<CollectorsAdapter.CollectorViewHolder>() {
     var collectors : List<Collector> = emptyList()
         set(value){
+            val diffCallback = CollectorDiffCallback(field, value)
+            val diffResult = DiffUtil.calculateDiff(diffCallback)
             field = value
-            notifyDataSetChanged()
+            try {
+                diffResult.dispatchUpdatesTo(this)
+            } catch (e: Exception) {
+                // Skip notifications in unit tests
+            }
         }
 
     override fun onCreateViewHolder(
@@ -51,5 +58,14 @@ class CollectorsAdapter: RecyclerView.Adapter<CollectorsAdapter.CollectorViewHol
                 )
                 .into(viewDataBinding.collectorImage)
         }
+    }
+
+    private class CollectorDiffCallback(private val oldList: List<Collector>, private val newList: List<Collector>) : DiffUtil.Callback() {
+        override fun getOldListSize() = oldList.size
+        override fun getNewListSize() = newList.size
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) = 
+            oldList[oldItemPosition].collectorId == newList[newItemPosition].collectorId
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) = 
+            oldList[oldItemPosition] == newList[newItemPosition]
     }
 }

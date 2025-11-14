@@ -1,6 +1,8 @@
 package com.example.vinilos.ui.adapters
 
 import com.example.vinilos.models.Collector
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 import org.junit.Assert.*
@@ -26,19 +28,13 @@ class CollectorsAdapterTest {
 
     @Test
     fun `getItemCount returns correct count`() {
-        val field = CollectorsAdapter::class.java.getDeclaredField("collectors")
-        field.isAccessible = true
-        field.set(adapter, testCollectors)
-        
+        adapter.collectors = testCollectors
         assertEquals(testCollectors.size, adapter.itemCount)
     }
 
     @Test
     fun `collectors property getter works correctly`() {
-        val field = CollectorsAdapter::class.java.getDeclaredField("collectors")
-        field.isAccessible = true
-        field.set(adapter, testCollectors)
-        
+        adapter.collectors = testCollectors
         assertEquals(testCollectors, adapter.collectors)
     }
 }
