@@ -26,7 +26,7 @@ class ArtistDetailViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
     private lateinit var viewModel: ArtistDetailViewModel
-    private val mockApplication = mockk<Application>()
+    private val mockApplication = mockk<Application>(relaxed = true)
     private val mockNetworkService = mockk<NetworkServiceAdapter>()
     private val mockArtistObserver = mockk<Observer<Artist>>(relaxed = true)
     private val mockErrorObserver = mockk<Observer<String>>(relaxed = true)
@@ -42,11 +42,8 @@ class ArtistDetailViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        every { mockApplication.applicationContext } returns mockApplication
-        mockkObject(NetworkServiceAdapter.Companion)
-        every { NetworkServiceAdapter.getInstance(any()) } returns mockNetworkService
-
         viewModel = ArtistDetailViewModel(mockApplication)
+        viewModel.networkServiceProvider = { mockNetworkService }
     }
 
     @After
@@ -94,7 +91,7 @@ class ArtistDetailViewModelTest {
         // Given
         val artistId = 100
         val errorMessage = "Network error"
-        val volleyError = mockk<VolleyError>()
+        val volleyError = mockk<VolleyError>(relaxed = true)
         every { volleyError.message } returns errorMessage
         every { volleyError.networkResponse } returns null
 
@@ -124,8 +121,8 @@ class ArtistDetailViewModelTest {
         val artistId = 100
         val statusCode = 404
         val errorData = "Not Found"
-        val volleyError = mockk<VolleyError>()
-        val networkResponse = mockk<com.android.volley.NetworkResponse>()
+        val volleyError = mockk<VolleyError>(relaxed = true)
+        val networkResponse = mockk<com.android.volley.NetworkResponse>(relaxed = true)
 
         every { networkResponse.statusCode } returns statusCode
         every { networkResponse.data } returns errorData.toByteArray()
@@ -156,7 +153,7 @@ class ArtistDetailViewModelTest {
     fun `loadArtistDetail handles unknown error`() {
         // Given
         val artistId = 100
-        val volleyError = mockk<VolleyError>()
+        val volleyError = mockk<VolleyError>(relaxed = true)
         every { volleyError.message } returns null
         every { volleyError.networkResponse } returns null
         every { volleyError.toString() } returns "Unknown error"
@@ -185,9 +182,7 @@ class ArtistDetailViewModelTest {
     fun `loadArtistDetail with valid artistId calls network service`() {
         // Given
         val artistId = 200
-        every {
-            mockNetworkService.getArtistDetail(any(), any(), any())
-        } just Runs
+        every { mockNetworkService.getArtistDetail(any(), any(), any()) } just Runs
 
         // When
         viewModel.loadArtistDetail(artistId)
@@ -238,4 +233,3 @@ class ArtistDetailViewModelTest {
         assertEquals(expectedArtist, viewModel.artist.value)
     }
 }
-

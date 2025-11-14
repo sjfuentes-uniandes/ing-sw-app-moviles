@@ -19,11 +19,16 @@ class ArtistDetailViewModel(application: Application) : AndroidViewModel(applica
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
+    // Proveedor inyectable para facilitar pruebas unitarias
+    var networkServiceProvider: () -> NetworkServiceAdapter = {
+        NetworkServiceAdapter.getInstance(getApplication())
+    }
+
     fun loadArtistDetail(artistId: Int) {
         Log.d("ArtistDetailViewModel", "Cargando detalle del artista con ID: $artistId")
         _isLoading.value = true
 
-        NetworkServiceAdapter.getInstance(getApplication()).getArtistDetail(
+        networkServiceProvider().getArtistDetail(
             artistId,
             { artist ->
                 Log.d("ArtistDetailViewModel", "Artista cargado exitosamente: ${artist.name}")
@@ -43,8 +48,8 @@ class ArtistDetailViewModel(application: Application) : AndroidViewModel(applica
                         error.message!!
                     }
                     else -> {
-                        Log.e("ArtistDetailViewModel", "Error desconocido: ${error.toString()}")
-                        "Error desconocido al cargar el artista: ${error.toString()}"
+                        Log.e("ArtistDetailViewModel", "Error desconocido: ${error}")
+                        "Error desconocido al cargar el artista: ${error}"
                     }
                 }
                 _error.value = errorMessage

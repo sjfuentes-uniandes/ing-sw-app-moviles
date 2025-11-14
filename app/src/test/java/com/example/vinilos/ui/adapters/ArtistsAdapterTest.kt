@@ -5,7 +5,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.Assert.*
 
-
 class ArtistsAdapterTest {
     private lateinit var adapter: ArtistsAdapter
     private var clickedArtist: Artist? = null
@@ -18,31 +17,29 @@ class ArtistsAdapterTest {
     @Before
     fun setup() {
         clickedArtist = null
-        adapter = ArtistsAdapter { artist ->
-            clickedArtist = artist
-        }
+        adapter = ArtistsAdapter { artist -> clickedArtist = artist }
     }
 
     @Test
-    fun `adapter starts with empty list`(){
+    fun `adapter starts with empty list`() {
         assertEquals(0, adapter.itemCount)
         assertTrue(adapter.artists.isEmpty())
     }
 
     @Test
-    fun `getItemCount returns correct count`(){
+    fun `getItemCount returns correct count`() {
         adapter.artists = testArtists
         assertEquals(testArtists.size, adapter.itemCount)
     }
 
     @Test
-    fun `artists property getter works correctly`(){
+    fun `artists property getter works correctly`() {
         adapter.artists = testArtists
         assertEquals(testArtists, adapter.artists)
     }
 
     @Test
-    fun `setting artists updates the list`(){
+    fun `setting artists updates the list`() {
         assertEquals(0, adapter.itemCount)
 
         adapter.artists = testArtists
@@ -52,7 +49,7 @@ class ArtistsAdapterTest {
     }
 
     @Test
-    fun `adapter can handle empty list after having items`(){
+    fun `adapter can handle empty list after having items`() {
         adapter.artists = testArtists
         assertEquals(testArtists.size, adapter.itemCount)
 
