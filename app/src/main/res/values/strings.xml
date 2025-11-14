@@ -21,4 +21,7 @@
     <string name="verified_artist">Verified artist</string>
     <string name="add_artist">Add artist</string>
     <string name="artist_image">Artist image</string>
-</resources>
+    <string name="creation_date">Creation Date:</string>
+    <string name="description">Description</string>
+    <string name="back_to_artists">Back to artists</string>
+    </resources>
