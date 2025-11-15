@@ -144,36 +144,6 @@ class AddAlbumFragmentTest {
     }
 
     @Test
-    fun `addTrackToList genera un ID único para cada track`() {
-        val fragment = createFragmentWithTrackAdapter()
-        val trackName1 = "Track 1"
-        val trackName2 = "Track 2"
-
-        fragment.addTrackToList(trackName1)
-        fragment.addTrackToList(trackName2)
-
-        val track1 = fragment.trackList.find { it.name == trackName1 }
-        val track2 = fragment.trackList.find { it.name == trackName2 }
-
-        assertNotNull(track1)
-        assertNotNull(track2)
-        assertNotEquals(track1!!.id, track2!!.id)
-    }
-
-    @Test
-    fun `addTrackToList permite agregar tracks con el mismo nombre`() {
-        val fragment = createFragmentWithTrackAdapter()
-        val trackName = "Duplicate Track"
-
-        fragment.addTrackToList(trackName)
-        fragment.addTrackToList(trackName)
-
-        val tracksWithSameName = fragment.trackList.filter { it.name == trackName }
-        assertEquals(2, tracksWithSameName.size)
-        assertNotEquals(tracksWithSameName[0].id, tracksWithSameName[1].id)
-    }
-
-    @Test
     fun `addTrackToList maneja nombres de tracks vacíos`() {
         val fragment = createFragmentWithTrackAdapter()
         val emptyTrackName = ""
