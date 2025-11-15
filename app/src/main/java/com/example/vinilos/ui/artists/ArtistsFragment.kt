@@ -51,6 +51,7 @@ class ArtistsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = binding.artistsRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.setHasFixedSize(true)
         recyclerView.adapter = artistsAdapter
         binding.swipeRefresh.setOnRefreshListener {
             artistsViewModel.refreshArtists()
