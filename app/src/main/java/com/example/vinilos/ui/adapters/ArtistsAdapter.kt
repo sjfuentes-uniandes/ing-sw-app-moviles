@@ -3,6 +3,7 @@ package com.example.vinilos.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.vinilos.R
@@ -15,8 +16,17 @@ class ArtistsAdapter(
 
     var artists: List<Artist> = emptyList()
         set(value) {
+            val oldList = field
             field = value
-            notifyDataSetChanged()
+            val diffCallback = object : DiffUtil.Callback() {
+                override fun getOldListSize(): Int = oldList.size
+                override fun getNewListSize(): Int = value.size
+                override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+                    oldList[oldItemPosition].artistId == value[newItemPosition].artistId
+                override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+                    oldList[oldItemPosition] == value[newItemPosition]
+            }
+            DiffUtil.calculateDiff(diffCallback).dispatchUpdatesTo(this)
         }
 
     class ArtistViewHolder(val binding: ArtistItemBinding) : RecyclerView.ViewHolder(binding.root) {
