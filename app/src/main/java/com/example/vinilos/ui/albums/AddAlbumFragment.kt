@@ -25,13 +25,13 @@ import java.util.Locale
 
 class AddAlbumFragment: Fragment() {
     private var _binding: FragmentAddAlbumsBinding? = null
-    private val binding get() = _binding!!
-    private lateinit var trackAdapter: TrackAdapter
-    private val trackList = mutableListOf<Track>()
-    private lateinit var albumViewModel: AlbumViewModel
-    private lateinit var artistsViewModel: ArtistsViewModel
-    private var selectedImageUri: Uri? = null
-    private var selectedArtist: Artist? = null
+    internal val binding get() = _binding!!
+    internal lateinit var trackAdapter: TrackAdapter
+    internal val trackList = mutableListOf<Track>()
+    internal lateinit var albumViewModel: AlbumViewModel
+    internal lateinit var artistsViewModel: ArtistsViewModel
+    internal var selectedImageUri: Uri? = null
+    internal var selectedArtist: Artist? = null
 
     private val pickImageLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
@@ -92,14 +92,13 @@ class AddAlbumFragment: Fragment() {
         }
     }
 
-    private fun setupSpinners(artists: List<Artist>) {
+    internal fun setupSpinners(artists: List<Artist>) {
         val artistNames = artists.map { it.name }
         val tracksForDropdown = arrayOf("Demo Track A", "Demo Track B", "Demo Track C")
 
         val artistAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, artistNames)
         binding.artistAutoComplete.setAdapter(artistAdapter)
 
-        // Adapter para el menú de Tracks
         val trackDropdownAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, tracksForDropdown)
         binding.trackAutoComplete.setAdapter(trackDropdownAdapter)
 
@@ -151,7 +150,7 @@ class AddAlbumFragment: Fragment() {
     }
 
 
-    private fun addTrackToList(trackName: String) {
+    internal fun addTrackToList(trackName: String) {
         val newTrack = Track(id = System.currentTimeMillis().toString(), name = trackName)
         trackList.add(newTrack)
         trackAdapter.submitList(trackList.toList())
@@ -171,15 +170,13 @@ class AddAlbumFragment: Fragment() {
         datePicker.show(parentFragmentManager, "DATE_PICKER_TAG")
     }
 
-    private fun formatDateForAPI(dateString: String): String {
+    internal fun formatDateForAPI(dateString: String): String {
         return try {
             val displayFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
             val date = displayFormat.parse(dateString)
-            // Backend expects format: "1984-08-01T00:00:00-05:00"
             date?.let {
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
                 val datePart = dateFormat.format(it)
-                // Append time and timezone: T00:00:00-05:00
                 "${datePart}T00:00:00-05:00"
             } ?: dateString
         } catch (e: Exception) {
@@ -187,7 +184,7 @@ class AddAlbumFragment: Fragment() {
         }
     }
 
-    private fun validateForm(): Boolean {
+    internal fun validateForm(): Boolean {
         var isValid = true
 
         if (binding.nameEditText.text.isNullOrEmpty()) {
@@ -245,7 +242,7 @@ class AddAlbumFragment: Fragment() {
         return isValid
     }
 
-    private fun createAlbum() {
+    internal fun createAlbum() {
         val name = binding.nameEditText.text.toString().trim()
         val description = binding.descriptionEditText.text.toString().trim()
         val genre = binding.genreEditText.text.toString().trim()
@@ -254,8 +251,6 @@ class AddAlbumFragment: Fragment() {
 
         val releaseDate = formatDateForAPI(releaseDateString)
 
-        // Backend expects a valid HTTP/HTTPS URL, not a local URI
-        // For now, use a placeholder URL. In production, you'd need to upload the image first
         val cover = "https://via.placeholder.com/300"
 
 
