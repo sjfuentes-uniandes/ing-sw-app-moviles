@@ -3,23 +3,34 @@ package com.example.vinilos.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.vinilos.R
 import com.example.vinilos.databinding.ArtistItemBinding
 import com.example.vinilos.models.Artist
 
-class ArtistsAdapter :
-    RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>() {
+class ArtistsAdapter(
+    private val onArtistClick: (Artist) -> Unit
+) : RecyclerView.Adapter<ArtistsAdapter.ArtistViewHolder>() {
 
-        var artists:List<Artist> = emptyList()
-            set(value){
-                field = value
-                notifyDataSetChanged()
+    var artists: List<Artist> = emptyList()
+        set(value) {
+            val oldList = field
+            field = value
+            val diffCallback = object : DiffUtil.Callback() {
+                override fun getOldListSize(): Int = oldList.size
+                override fun getNewListSize(): Int = value.size
+                override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+                    oldList[oldItemPosition].artistId == value[newItemPosition].artistId
+                override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+                    oldList[oldItemPosition] == value[newItemPosition]
             }
+            DiffUtil.calculateDiff(diffCallback).dispatchUpdatesTo(this)
+        }
 
-    class ArtistViewHolder(val binding: ArtistItemBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(artist: Artist) {
+    class ArtistViewHolder(val binding: ArtistItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(artist: Artist, onArtistClick: (Artist) -> Unit) {
             binding.artist = artist
 
             Glide.with(binding.root.context)
@@ -27,6 +38,10 @@ class ArtistsAdapter :
                 .placeholder(R.drawable.placeholder_image)
                 .error(R.drawable.placeholder_image)
                 .into(binding.artistImage)
+
+            binding.root.setOnClickListener {
+                onArtistClick(artist)
+            }
 
             binding.executePendingBindings()
         }
@@ -42,12 +57,9 @@ class ArtistsAdapter :
         return ArtistViewHolder(binding)
     }
 
-    /**
-     * *poblar* una fila con datos.
-     */
     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
         val artist = artists[position]
-        holder.bind(artist)
+        holder.bind(artist, onArtistClick)
     }
 
     override fun getItemCount(): Int = artists.size

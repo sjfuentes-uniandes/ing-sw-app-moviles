@@ -5,8 +5,8 @@ import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
 import com.example.vinilos.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +27,48 @@ class MainActivity : AppCompatActivity() {
         Log.d("act", navController.toString())
 
         val navView: BottomNavigationView = binding.navView
-        navView.setupWithNavController(navController)
+
+        // Configurar el listener manualmente para controlar la navegación
+        navView.setOnItemSelectedListener { item ->
+            val navOptions = NavOptions.Builder()
+                .setLaunchSingleTop(true)
+                .setRestoreState(false)
+                .setPopUpTo(R.id.mobile_navigation, false)
+                .build()
+
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    if (navController.currentDestination?.id != R.id.navigation_home) {
+                        navController.navigate(R.id.navigation_home, null, navOptions)
+                    }
+                    true
+                }
+                R.id.navigation_albums -> {
+                    if (navController.currentDestination?.id != R.id.navigation_albums) {
+                        navController.navigate(R.id.navigation_albums, null, navOptions)
+                    }
+                    true
+                }
+                R.id.navigation_artists -> {
+                    if (navController.currentDestination?.id != R.id.navigation_artists) {
+                        navController.navigate(R.id.navigation_artists, null, navOptions)
+                    }
+                    true
+                }
+                R.id.navigation_collector -> {
+                    if (navController.currentDestination?.id != R.id.navigation_collector) {
+                        navController.navigate(R.id.navigation_collector, null, navOptions)
+                    }
+                    true
+                }
+                R.id.navigation_user -> {
+                    if (navController.currentDestination?.id != R.id.navigation_user) {
+                        navController.navigate(R.id.navigation_user, null, navOptions)
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
     }
 }
