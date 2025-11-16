@@ -140,6 +140,48 @@ class NetworkServiceAdapter constructor(context: Context){
         )
     }
 
+    fun getAlbumDetail(
+        albumId: Int,
+        onComplete: (Album) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        val path = "albums/$albumId"
+        val url = BASE_URL + path
+        Log.d("NetworkServiceAdapter", "Solicitando detalle del album: $url")
+
+        requestQueue.add(
+            StringRequest(
+                Request.Method.GET,
+                url,
+                { response ->
+                    try {
+                        Log.d("NetworkServiceAdapter", "Respuesta recibida: $response")
+                        val json = JSONObject(response)
+                        val album = Album(
+                            albumId =json.getInt("id"),
+                            name = json.getString("name"),
+                            cover = json.getString("cover"),
+                            releaseDate = json.getString("releaseDate"),
+                            description = json.getString("description"),
+                            genre = json.getString("genre"),
+                            recordLabel = json.getString("recordLabel")
+                        )
+                        Log.d("NetworkServiceAdapter", "Album parseado correctamente: ${album.name}")
+                        onComplete(album)
+
+                    } catch (e: Exception) {
+                        Log.e("NetworkServiceAdapter", "Error al parsear respuesta: ${e.message}", e)
+                        onError(VolleyError("Error al parsear respuesta: ${e.message}"))   
+                    }
+                },
+                { error -> 
+                    Log.e("NetworkServiceAdapter", "Error en la petición: $(error.message)", error)
+                    onError(error)
+                }
+            )
+        )
+    }
+
     fun createAlbum(
         name: String,
         cover: String,

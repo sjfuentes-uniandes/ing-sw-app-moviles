@@ -39,6 +39,10 @@
     <string name="creation_date">Creation Date:</string>
     <string name="description">Description</string>
     <string name="back_to_artists">Back to artists</string>
+    <string name="back_to_albums">Back to albums</string>
+    <string name="album">Album</string>
+    <string name="release_date">Release Date</string>
+    <string name="genre">Genre</string>
     <string-array name="genre_options">
         <item>Classical</item>
         <item>Salsa</item>

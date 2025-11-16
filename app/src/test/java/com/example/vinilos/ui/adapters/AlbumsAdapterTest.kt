@@ -17,7 +17,7 @@ class AlbumsAdapterTest {
 
     @Before
     fun setup() {
-        adapter = AlbumsAdapter()
+        adapter = AlbumsAdapter{}
     }
 
     @Test
