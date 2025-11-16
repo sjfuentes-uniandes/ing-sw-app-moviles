@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vinilos.R
@@ -41,6 +42,10 @@ class AlbumsFragment : Fragment() {
         
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.refreshAlbums()
+        }
+
+        binding.addAlbumButton.setOnClickListener {
+            findNavController().navigate(R.id.action_albums_to_addAlbum)
         }
     }
 

@@ -140,6 +140,95 @@ class NetworkServiceAdapter constructor(context: Context){
         )
     }
 
+    fun createAlbum(
+        name: String,
+        cover: String,
+        releaseDate: String,
+        description: String,
+        genre: String,
+        recordLabel: String,
+        tracks: List<Map<String, String>>,
+        onComplete: (album: Album) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+
+        val jsonBody = JSONObject().apply {
+            put("name", name)
+            put("cover", cover)
+            put("releaseDate", releaseDate)
+            put("description", description)
+            put("genre", genre)
+            put("recordLabel", recordLabel)
+        }
+
+        val requestBody = jsonBody.toString()
+        
+        val request = object : StringRequest(
+            Request.Method.POST,
+            BASE_URL + "albums",
+            { response ->
+                try {
+                    val jsonResponse = JSONObject(response)
+                    val album = Album(
+                        albumId = jsonResponse.getInt("id"),
+                        name = jsonResponse.getString("name"),
+                        cover = jsonResponse.getString("cover"),
+                        recordLabel = jsonResponse.getString("recordLabel"),
+                        releaseDate = jsonResponse.getString("releaseDate"),
+                        genre = jsonResponse.getString("genre"),
+                        description = jsonResponse.getString("description")
+                    )
+                    onComplete(album)
+                } catch (e: Exception) {
+                    onError(VolleyError("Error parsing response: ${e.message}", e))
+                }
+            },
+            { error ->
+                val errorMessage = when {
+                    error.networkResponse != null -> {
+                        val statusCode = error.networkResponse.statusCode
+                        val errorBody = try {
+                            String(error.networkResponse.data, Charsets.UTF_8)
+                        } catch (e: Exception) {
+                            "Could not parse error body"
+                        }
+                        "HTTP $statusCode: $errorBody"
+                    }
+                    error.message != null -> {
+                        error.message ?: "Unknown error"
+                    }
+                    else -> {
+                        "Could not retrieve response code from HttpUrlConnection"
+                    }
+                }
+                onError(VolleyError(errorMessage, error))
+            }
+        ) {
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Content-Type"] = "application/json; charset=utf-8"
+                headers["Accept"] = "application/json"
+                return headers
+            }
+
+            override fun getBody(): ByteArray {
+                return requestBody.toByteArray(Charsets.UTF_8)
+            }
+
+            override fun getBodyContentType(): String {
+                return "application/json; charset=utf-8"
+            }
+        }
+
+        request.retryPolicy = com.android.volley.DefaultRetryPolicy(
+            30000,
+            2,
+            com.android.volley.DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+
+        requestQueue.add(request)
+    }
+
     private fun getRequest(path:String, responseListener: Response.Listener<String>, errorListener: Response.ErrorListener): StringRequest {
         return StringRequest(Request.Method.GET, BASE_URL+path, responseListener,errorListener)
     }
