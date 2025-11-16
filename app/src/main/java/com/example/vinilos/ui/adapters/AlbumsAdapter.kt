@@ -12,7 +12,10 @@ import com.example.vinilos.R
 import com.example.vinilos.databinding.AlbumItemBinding
 import com.example.vinilos.models.Album
 
-class AlbumsAdapter: RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
+class AlbumsAdapter(
+    private val onAlbumClick: (Album) -> Unit
+) : RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
+
     var albums : List<Album> = emptyList()
         set(value){
             val diffCallback = AlbumDiffCallback(field, value)
@@ -39,13 +42,14 @@ class AlbumsAdapter: RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
         holder.viewDataBinding.also {
             it.album = albums[position]
         }
-        holder.bind(albums[position])
+        holder.bind(albums[position], onAlbumClick)
     }
 
     override fun getItemCount(): Int = albums.size
 
     class AlbumViewHolder(val viewDataBinding: AlbumItemBinding) : RecyclerView.ViewHolder(viewDataBinding.root) {
-        fun bind(album: Album) {
+        fun bind(album: Album, onAlbumClick: (Album) -> Unit = {}) {
+            viewDataBinding.album = album
             Glide.with(itemView)
                 .load(album.cover.toUri().buildUpon().scheme("https").build())
                 .apply(
@@ -54,6 +58,8 @@ class AlbumsAdapter: RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder>() {
                         .error(R.drawable.placeholder_image)
                 )
                 .into(viewDataBinding.albumCover)
+            viewDataBinding.root.setOnClickListener { onAlbumClick(album) }
+            viewDataBinding.executePendingBindings()
         }
     }
 

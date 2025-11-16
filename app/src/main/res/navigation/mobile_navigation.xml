@@ -30,7 +30,15 @@
         <action
             android:id="@+id/action_albums_to_addAlbum"
             app:destination="@id/navigation_add_album" />
+        <action 
+            android:id="@+id/action_albums_to_albumDetailFragment"
+            app:destination="@id/albumDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/albumDetailFragment"
+        android:name="com.example.vinilos.ui.albums.AlbumDetailFragment"
+        android:label="Album Detail"
+        tools:layout="@layout/fragment_album_detail" />
     <fragment
         android:id="@+id/navigation_artists"
         android:name="com.example.vinilos.ui.artists.ArtistsFragment"

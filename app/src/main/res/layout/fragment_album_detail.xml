@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <!-- Header con back button y nombre del album -->
+    <LinearLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Back button -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/back_to_albums"
+            android:scaleType="center"
+            android:padding="12dp"
+            app:srcCompat="@drawable/ic_less_than" />
+
+        <!-- Nombre del álbum como título centrado -->
+        <TextView
+            android:id="@+id/albumTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center"
+            tools:text="Album Name example" />
+
+        <!-- Espacio vacío para balance -->
+        <View
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/header_layout"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <!-- Cubierta del álbum -->
+            <TextView
+                android:id="@+id/albumGenre"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/genreLabel"
+                app:layout_constraintTop_toTopOf="@id/genreLabel"
+                tools:text="Genre goes here" />
+
+            <ImageView
+                android:id="@+id/albumCover"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/album_cover"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:src="@drawable/ic_launcher_foreground" />
+
+            <!-- Nombre del álbum -->
+            <TextView
+                android:id="@+id/albumName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="start"
+                app:layout_constraintTop_toTopOf="@id/albumCover"
+                app:layout_constraintStart_toEndOf="@id/albumCover"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="Album Name" />
+
+            <TextView
+                android:id="@+id/albumNameLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/album"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                app:layout_constraintTop_toBottomOf="@id/albumName"
+                app:layout_constraintStart_toEndOf="@id/albumCover"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Fecha de release -->
+            <TextView
+                android:id="@+id/albumReleaseDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="12sp"
+                app:layout_constraintTop_toTopOf="@id/releaseDateLabel"
+                app:layout_constraintStart_toEndOf="@id/releaseDateLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="2020-01-01" />
+            <TextView
+                android:id="@+id/releaseDateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/release_date"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/albumCover"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Género -->
+            <TextView
+                android:id="@+id/genreLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/genre"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/releaseDateLabel"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Descripción -->
+            <TextView
+                android:id="@+id/albumDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="24dp"
+                android:lineSpacingExtra="4dp"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/descriptionLabel"
+                app:layout_constraintVertical_bias="0.014"
+                tools:text="Album description goes here" />
+
+            <TextView
+                android:id="@+id/descriptionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/description"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/genreLabel"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
