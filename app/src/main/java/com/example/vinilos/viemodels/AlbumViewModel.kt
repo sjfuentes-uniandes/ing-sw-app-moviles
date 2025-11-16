@@ -23,6 +23,10 @@ class AlbumViewModel(application: Application): AndroidViewModel(application) {
     val albums: LiveData<List<Album>> = repository.getAlbums()
 
     private var _eventNetworkError = MutableLiveData<Boolean>(false)
+    private var _createAlbumResult = MutableLiveData<Result<Album>>()
+
+    val createAlbumResult: LiveData<Result<Album>>
+        get() = _createAlbumResult
 
     val eventNetworkError: LiveData<Boolean>
         get() = _eventNetworkError
@@ -55,6 +59,33 @@ class AlbumViewModel(application: Application): AndroidViewModel(application) {
 
     fun refreshAlbums() {
         refreshDataFromNetwork()
+    }
+
+    fun createAlbum(
+        name: String,
+        cover: String,
+        releaseDate: String,
+        description: String,
+        genre: String,
+        recordLabel: String,
+        tracks: List<Map<String, String>>
+    ) {
+        viewModelScope.launch {
+            val result = repository.createAlbum(
+                name = name,
+                cover = cover,
+                releaseDate = releaseDate,
+                description = description,
+                genre = genre,
+                recordLabel = recordLabel,
+                tracks = tracks
+            )
+            _createAlbumResult.postValue(result)
+            if (result.isSuccess) {
+                // Refresh albums list after successful creation
+                refreshDataFromNetwork()
+            }
+        }
     }
 
     class Factory(val app: Application) : ViewModelProvider.Factory {

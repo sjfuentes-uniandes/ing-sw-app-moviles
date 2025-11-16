@@ -17,7 +17,39 @@
     <string name="follow">Follow</string>
     <string name="verified_artist">Verified artist</string>
     <string name="artist_image">Artist image</string>
+    <string name="crear_album">Crear Album</string>
+    <string name="nombre">Nombre</string>
+    <string name="ingresar_nombre_del_album">Ingresar nombre del album</string>
+    <string name="artista">Artista</string>
+    <string name="insertar_artista">Insertar Artista</string>
+    <string name="descripcion">Descripcion</string>
+    <string name="ingresar_descripcion_del_album">Ingresar descripcion del album</string>
+    <string name="genero">Genero</string>
+    <string name="ingresar_genero_del_album">Ingresar genero del album</string>
+    <string name="discografia">Discografia</string>
+    <string name="ingresar_discografia">Ingresar discografia</string>
+    <string name="fecha_de_lanzamiento">Fecha de lanzamiento</string>
+    <string name="ingresar_fecha_de_lanzamiento">Ingresar fecha de lanzamiento</string>
+    <string name="imagen_del_album">Imagen del album</string>
+    <string name="album_cover_preview">Album cover preview</string>
+    <string name="buscar_imagen_del_album">Buscar imagen del album</string>
+    <string name="tracks">Tracks</string>
+    <string name="ingresar_track">Ingresar track</string>
+    <string name="create_album">Create album</string>
     <string name="creation_date">Creation Date:</string>
     <string name="description">Description</string>
     <string name="back_to_artists">Back to artists</string>
-    </resources>
+    <string-array name="genre_options">
+        <item>Classical</item>
+        <item>Salsa</item>
+        <item>Rock</item>
+        <item>Folk</item>
+    </string-array>
+    <string-array name="record_label_options">
+        <item>Sony Music</item>
+        <item>EMI</item>
+        <item>Discos Fuentes</item>
+        <item>Elektra</item>
+        <item>Fania Records</item>
+    </string-array>
+</resources>
