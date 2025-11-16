@@ -1,6 +1,8 @@
 package com.example.vinilos.ui.adapters
 
 import com.example.vinilos.models.Album
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 import org.junit.Assert.*
@@ -26,20 +28,13 @@ class AlbumsAdapterTest {
 
     @Test
     fun `getItemCount returns correct count`() {
-        // Set albums directly without triggering notifyDataSetChanged
-        val field = AlbumsAdapter::class.java.getDeclaredField("albums")
-        field.isAccessible = true
-        field.set(adapter, testAlbums)
-        
+        adapter.albums = testAlbums
         assertEquals(testAlbums.size, adapter.itemCount)
     }
 
     @Test
     fun `albums property getter works correctly`() {
-        val field = AlbumsAdapter::class.java.getDeclaredField("albums")
-        field.isAccessible = true
-        field.set(adapter, testAlbums)
-        
+        adapter.albums = testAlbums
         assertEquals(testAlbums, adapter.albums)
     }
 }

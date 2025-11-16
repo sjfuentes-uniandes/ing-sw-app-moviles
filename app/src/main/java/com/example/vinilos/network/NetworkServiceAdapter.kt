@@ -1,11 +1,11 @@
 package com.example.vinilos.network
 
 import android.content.Context
+import android.util.Log
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.VolleyError
-import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import android.util.Log
@@ -14,11 +14,10 @@ import com.example.vinilos.models.Artist
 import com.example.vinilos.models.Collector
 import org.json.JSONArray
 import org.json.JSONObject
-import java.nio.file.Path
 
 class NetworkServiceAdapter constructor(context: Context){
     companion object{
-        const val  BASE_URL = "https://vinilos-backend-5f9h.onrender.com/"
+        const val BASE_URL = "https://vinilos-backend-5f9h.onrender.com/"
         var instance: NetworkServiceAdapter? = null
         fun getInstance(context: Context) =
             instance ?: synchronized(this){
@@ -79,7 +78,7 @@ class NetworkServiceAdapter constructor(context: Context){
     ) {
         requestQueue.add(
             getRequest(
-            "bands", { response ->
+                "bands", { response ->
                     val resp = JSONArray(response)
                     val list = mutableListOf<Artist>()
                     val artists = (0 until resp.length()).map { a ->
@@ -96,13 +95,51 @@ class NetworkServiceAdapter constructor(context: Context){
                     list.addAll(artists)
 
                     onComplete(list)
-            },
-            {
-                onError(it)
-            }
-        ))
+                },
+                {
+                    onError(it)
+                }
+            ))
     }
 
+    fun getArtistDetail(
+        artistId: Int,
+        onComplete: (Artist) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        val path = "bands/$artistId"
+        val url = BASE_URL + path
+        Log.d("NetworkServiceAdapter", "Solicitando detalle del artista: $url")
+
+        requestQueue.add(
+            StringRequest(
+                Request.Method.GET,
+                url,
+                { response ->
+                    try {
+                        Log.d("NetworkServiceAdapter", "Respuesta recibida: $response")
+                        val json = JSONObject(response)
+                        val artist = Artist(
+                            artistId = json.getInt("id"),
+                            image = json.getString("image"),
+                            name = json.getString("name"),
+                            description = json.getString("description"),
+                            creationDate = json.getString("creationDate")
+                        )
+                        Log.d("NetworkServiceAdapter", "Artista parseado correctamente: ${artist.name}")
+                        onComplete(artist)
+                    } catch (e: Exception) {
+                        Log.e("NetworkServiceAdapter", "Error al parsear respuesta: ${e.message}", e)
+                        onError(VolleyError("Error al parsear respuesta: ${e.message}"))
+                    }
+                },
+                { error ->
+                    Log.e("NetworkServiceAdapter", "Error en la petición: ${error.message}", error)
+                    onError(error)
+                }
+            )
+        )
+    }
 
     fun createAlbum(
         name: String,
