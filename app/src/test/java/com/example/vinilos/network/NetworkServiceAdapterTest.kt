@@ -81,4 +81,11 @@ class NetworkServiceAdapterTest {
         val expectedPath = "bands/$artistId"
         assertEquals("bands/123", expectedPath)
     }
+
+    @Test
+    fun `album detail endpoint path is correct`() {
+        val albumId = 456
+        val expectedPath = "albums/$albumId"
+        assertEquals("albums/456", expectedPath)
+    }
 }
