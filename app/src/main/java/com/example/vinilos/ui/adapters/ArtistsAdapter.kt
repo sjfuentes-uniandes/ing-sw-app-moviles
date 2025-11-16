@@ -33,10 +33,11 @@ class ArtistsAdapter(
         fun bind(artist: Artist, onArtistClick: (Artist) -> Unit) {
             binding.artist = artist
 
-            Glide.with(binding.root.context)
+            Glide.with(binding.root)
                 .load(artist.image)
                 .placeholder(R.drawable.placeholder_image)
                 .error(R.drawable.placeholder_image)
+                .centerCrop()
                 .into(binding.artistImage)
 
             binding.root.setOnClickListener {
@@ -64,7 +65,7 @@ class ArtistsAdapter(
 
     override fun onViewRecycled(holder: ArtistViewHolder) {
         super.onViewRecycled(holder)
-        Glide.with(holder.binding.root.context).clear(holder.binding.artistImage)
+        Glide.with(holder.binding.root).clear(holder.binding.artistImage)
     }
 
     override fun getItemCount(): Int = artists.size
