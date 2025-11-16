@@ -62,5 +62,10 @@ class ArtistsAdapter(
         holder.bind(artist, onArtistClick)
     }
 
+    override fun onViewRecycled(holder: ArtistViewHolder) {
+        super.onViewRecycled(holder)
+        Glide.with(holder.binding.root.context).clear(holder.binding.artistImage)
+    }
+
     override fun getItemCount(): Int = artists.size
 }
