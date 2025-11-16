@@ -5,16 +5,13 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.VolleyError
-import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import android.util.Log
 import com.example.vinilos.models.Album
 import com.example.vinilos.models.Artist
 import com.example.vinilos.models.Collector
 import org.json.JSONArray
 import org.json.JSONObject
-import java.nio.file.Path
 
 class NetworkServiceAdapter constructor(context: Context){
     companion object{
@@ -132,9 +129,7 @@ class NetworkServiceAdapter constructor(context: Context){
             BASE_URL + "albums",
             { response ->
                 try {
-                    Log.d("NetworkServiceAdapter", "Raw response received: $response")
                     val jsonResponse = JSONObject(response)
-                    Log.d("NetworkServiceAdapter", "Parsed JSON response: ${jsonResponse.toString()}")
                     val album = Album(
                         albumId = jsonResponse.getInt("id"),
                         name = jsonResponse.getString("name"),
@@ -146,8 +141,6 @@ class NetworkServiceAdapter constructor(context: Context){
                     )
                     onComplete(album)
                 } catch (e: Exception) {
-                    Log.e("NetworkServiceAdapter", "Error parsing response: ${e.message}", e)
-                    Log.e("NetworkServiceAdapter", "Response was: $response")
                     onError(VolleyError("Error parsing response: ${e.message}", e))
                 }
             },
@@ -160,15 +153,12 @@ class NetworkServiceAdapter constructor(context: Context){
                         } catch (e: Exception) {
                             "Could not parse error body"
                         }
-                        Log.e("NetworkServiceAdapter", "Network error: Status $statusCode, Body: $errorBody")
                         "HTTP $statusCode: $errorBody"
                     }
                     error.message != null -> {
-                        Log.e("NetworkServiceAdapter", "Volley error: ${error.message}")
                         error.message ?: "Unknown error"
                     }
                     else -> {
-                        Log.e("NetworkServiceAdapter", "Unknown error: ${error.javaClass.simpleName}")
                         "Could not retrieve response code from HttpUrlConnection"
                     }
                 }
@@ -191,15 +181,11 @@ class NetworkServiceAdapter constructor(context: Context){
             }
         }
 
-        // Increase timeout significantly for Render.com which can be slow
         request.retryPolicy = com.android.volley.DefaultRetryPolicy(
-            30000, // 30 seconds timeout (Render.com can be slow)
-            2, // 2 retries
+            30000,
+            2,
             com.android.volley.DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         )
-
-        Log.d("NetworkServiceAdapter", "Sending POST request to: ${BASE_URL}albums")
-        Log.d("NetworkServiceAdapter", "Request body: ${jsonBody.toString()}")
 
         requestQueue.add(request)
     }
