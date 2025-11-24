@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.vinilos.R
 import com.example.vinilos.databinding.FragmentCollectorDetailBinding
-import com.example.vinilos.viewmodels.CollectorDetailViewModel
+import com.example.vinilos.viemodels.CollectorDetailViewModel
 import com.bumptech.glide.Glide
 
 class CollectorDetailFragment : Fragment() {

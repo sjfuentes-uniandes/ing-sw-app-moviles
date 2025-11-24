@@ -44,7 +44,7 @@
     <string name="album">Album</string>
     <string name="release_date">Release Date</string>
     <string name="genre">Genre</string>
-    <string name="collector_name">Collector&apos;s name</string>
+    <string name="collector_name">Collectors name</string>
     <string name="telephone">Telephone</string>
     <string name="email">Email</string>
     <string-array name="genre_options">

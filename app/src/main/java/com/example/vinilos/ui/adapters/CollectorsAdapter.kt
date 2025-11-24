@@ -12,7 +12,7 @@ import com.example.vinilos.R
 import com.example.vinilos.databinding.CollectorItemBinding
 import com.example.vinilos.models.Collector
 
-class CollectorsAdapter: RecyclerView.Adapter<CollectorsAdapter.CollectorViewHolder>() {
+class CollectorsAdapter(private val onCollectorClick: (Collector) -> Unit) : RecyclerView.Adapter<CollectorsAdapter.CollectorViewHolder>() {
     var collectors : List<Collector> = emptyList()
         set(value){
             val diffCallback = CollectorDiffCallback(field, value)
@@ -42,13 +42,14 @@ class CollectorsAdapter: RecyclerView.Adapter<CollectorsAdapter.CollectorViewHol
         holder.viewDataBinding.also {
             it.collector = collectors[position]
         }
-        holder.bind(collectors[position])
+        holder.bind(collectors[position], onCollectorClick)
     }
 
     override fun getItemCount(): Int = collectors.size
 
     class CollectorViewHolder(val viewDataBinding: CollectorItemBinding): RecyclerView.ViewHolder(viewDataBinding.root){
-        fun bind(collector: Collector){
+        fun bind(collector: Collector, onCollectorClick: (Collector) -> Unit= {}) {
+            viewDataBinding.collector = collector
             Glide.with(itemView)
                 .load("".toUri().buildUpon().scheme("https").build())
                 .apply(
@@ -57,6 +58,8 @@ class CollectorsAdapter: RecyclerView.Adapter<CollectorsAdapter.CollectorViewHol
                         .error(R.drawable.placeholder_image)
                 )
                 .into(viewDataBinding.collectorImage)
+                viewDataBinding.root.setOnClickListener {onCollectorClick(collector)}
+                viewDataBinding.executePendingBindings()
         }
     }
 

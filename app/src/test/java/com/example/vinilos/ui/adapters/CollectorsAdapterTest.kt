@@ -17,7 +17,7 @@ class CollectorsAdapterTest {
 
     @Before
     fun setup() {
-        adapter = CollectorsAdapter()
+        adapter = CollectorsAdapter{}
     }
 
     @Test

@@ -59,8 +59,9 @@
         android:label="Collectors"
         tools:layout="@layout/fragment_collectors"> 
         <action
-             android:id="@+id/action_collectorsFragment_to_artistDetailFragment"
-             app:destination="@id/collectorDetailFragment"/>
+            android:id="@+id/action_collectors_to_collectorsDetail"
+            app:destination="@id/collectorDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/collectorDetailFragment"
         android:name="com.example.vinilos.ui.collectors.CollectorDetailFragment"
