@@ -40,9 +40,13 @@
     <string name="description">Description</string>
     <string name="back_to_artists">Back to artists</string>
     <string name="back_to_albums">Back to albums</string>
+    <string name="back_to_collectors">Back to collectors</string>
     <string name="album">Album</string>
     <string name="release_date">Release Date</string>
     <string name="genre">Genre</string>
+    <string name="collector_name">Collector&apos;s name</string>
+    <string name="telephone">Telephone</string>
+    <string name="email">Email</string>
     <string-array name="genre_options">
         <item>Classical</item>
         <item>Salsa</item>
