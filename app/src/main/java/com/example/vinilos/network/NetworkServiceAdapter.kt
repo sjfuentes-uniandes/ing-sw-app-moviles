@@ -11,6 +11,7 @@ import com.android.volley.toolbox.Volley
 import com.example.vinilos.models.Album
 import com.example.vinilos.models.Artist
 import com.example.vinilos.models.Collector
+import com.example.vinilos.models.CollectorAlbum
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -308,6 +309,67 @@ class NetworkServiceAdapter constructor(context: Context){
         )
 
         requestQueue.add(request)
+    }
+
+    fun getCollectorAlbums(
+        collectorId: Int,
+        onComplete: (resp: List<CollectorAlbum>) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        val path = "collectors/$collectorId/albums"
+        requestQueue.add(
+            getRequest(
+                path,
+                { response ->
+                    val resp = JSONArray(response)
+                    val list = mutableListOf<CollectorAlbum>()
+                    for (i in 0 until resp.length()) {
+                        val item = resp.getJSONObject(i)
+                        val collector = item.getJSONObject("collector")
+                        val album = item.getJSONObject("album")
+                        val collectorAlbum = CollectorAlbum(
+                            collector_albumId = item.getInt("id"),
+                            price = item.getInt("price"),
+                            status = item.getString("status"),
+                            collectorId = collector.getInt("collectorId"),
+                            albumId = album.getInt("albumId")
+                        )
+                        list.add(collectorAlbum)
+                    }
+                    onComplete(list)
+                },
+                {
+                    onError(it)
+                }
+            )
+        )
+    }
+
+    fun getCollectorAlbumNames(
+        collectorId: Int,
+        onComplete: (resp: List<String>) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        val path = "collectors/$collectorId/albums"
+        requestQueue.add(
+            getRequest(
+                path,
+                { response ->
+                    val resp = JSONArray(response)
+                    val albumNames = mutableListOf<String>()
+                    for (i in 0 until resp.length()) {
+                        val item = resp.getJSONObject(i)
+                        val album = item.getJSONObject("album")
+                        val albumName = album.getString("name")
+                        albumNames.add(albumName)
+                    }
+                    onComplete(albumNames)
+                },
+                {
+                    onError(it)
+                }
+            )
+        )
     }
 
     private fun getRequest(path:String, responseListener: Response.Listener<String>, errorListener: Response.ErrorListener): StringRequest {
