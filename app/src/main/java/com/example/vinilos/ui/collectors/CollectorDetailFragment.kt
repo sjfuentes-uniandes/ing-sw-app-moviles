@@ -47,6 +47,7 @@ class CollectorDetailFragment : Fragment() {
         viewModel.collector.observe(viewLifecycleOwner) { collector ->
             Log.d("CollectorDetailFragment", "Coleccionista recibido: ${collector.name}")
 
+            binding.collectorTitle.text = collector.name + "'s Details"
             binding.collectorName.text = collector.name
             binding.collectorTelephone.text = collector.telephone
             binding.collectorEmail.text = collector.email
