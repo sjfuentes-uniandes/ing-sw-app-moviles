@@ -60,7 +60,7 @@ class CollectorDetailFragment : Fragment() {
 
             if (albumNames.isEmpty()) {
                 val emptyText = TextView(requireContext())
-                emptyText.text = "Este coleccionista no tiene álbumes registrados"
+                emptyText.text = "Este coleccionista no tiene albumes registrados"
                 emptyText.textSize = 12f
                 binding.albumsContainer.addView(emptyText)
                 return@observe
