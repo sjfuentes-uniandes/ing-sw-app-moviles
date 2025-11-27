@@ -1,4 +1,4 @@
-package com.example.vinilos.HU02_detalle_collector
+package com.example.vinilos.HU06_detalle_colleccionista
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
