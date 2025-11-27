@@ -43,6 +43,14 @@
     <string name="album">Album</string>
     <string name="release_date">Release Date</string>
     <string name="genre">Genre</string>
+    <string name="go_to_albums_page">Go to Albums page</string>
+    <string name="go_to_collectors_page">Go to collectors page</string>
+    <string name="go_to_artists_page">Go to artists page</string>
+    <string name="album_title_in_header">Album title in header</string>
+    <string name="album_name_in_details">Album name in details</string>
+    <string name="collectors_page_title">Collectors page title</string>
+    <string name="album_name_input_field">Album name input field</string>
+    <string name="artists_section_button">Artists section button</string>
     <string-array name="genre_options">
         <item>Classical</item>
         <item>Salsa</item>

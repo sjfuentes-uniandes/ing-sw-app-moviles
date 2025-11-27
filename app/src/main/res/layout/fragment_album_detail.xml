@@ -37,6 +37,7 @@
             android:textStyle="bold"
             android:textColor="@color/black"
             android:gravity="center"
+
             tools:text="Album Name example" />
 
         <!-- Espacio vacío para balance -->
@@ -75,6 +76,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:scaleType="centerCrop"
+                android:background="#F5F5F5"
                 android:contentDescription="@string/album_cover"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -105,7 +107,7 @@
                 android:layout_marginTop="4dp"
                 android:text="@string/album"
                 android:textSize="12sp"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="#666666"
                 app:layout_constraintTop_toBottomOf="@id/albumName"
                 app:layout_constraintStart_toEndOf="@id/albumCover"
                 app:layout_constraintEnd_toEndOf="parent" />

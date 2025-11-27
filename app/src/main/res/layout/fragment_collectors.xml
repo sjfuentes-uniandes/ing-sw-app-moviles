@@ -33,12 +33,13 @@
             android:textSize="28sp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:gravity="center" />
+            android:gravity="center"
+            android:contentDescription="@string/collectors_page_title" />
 
         <!-- Add button -->
         <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:src="@drawable/add_circle"
             android:contentDescription="@string/add_collector"
             android:background="?android:attr/selectableItemBackgroundBorderless"
@@ -60,7 +61,8 @@
         <!-- Filter button -->
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
             android:layout_marginEnd="12dp"
             android:text="@string/filter"
             android:textColor="@color/black"
@@ -74,7 +76,8 @@
         <!-- Sort button -->
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
             android:text="@string/sort"
             android:textColor="@color/black"
             android:textSize="16sp"
