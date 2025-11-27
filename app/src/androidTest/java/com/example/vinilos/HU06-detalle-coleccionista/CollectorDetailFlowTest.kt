@@ -55,10 +55,10 @@ class CollectorDetailFlowTest {
         onView(withId(R.id.albumsContainer)).check(matches(isDisplayed()))
 
         // Verify collector detail label elements
-        onView(withId(R.id.collectorNameLabel)).check(matches(withText(R.string.collector_name)))
-        onView(withId(R.id.collectorTelephoneLabel)).check(matches(withText(R.string.telephone)))
-        onView(withId(R.id.collectorEmailLabel)).check(matches(withText(R.string.email)))
-        onView(withId(R.id.albumsLabel)).check(matches(withText(R.string.albums)))
+        onView(withId(R.id.collectorNameLabel)).check(matches(withText(R.string.collector_name_label)))
+        onView(withId(R.id.collectorTelephoneLabel)).check(matches(withText(R.string.telephone_label)))
+        onView(withId(R.id.collectorEmailLabel)).check(matches(withText(R.string.email_label)))
+        onView(withId(R.id.albumsLabel)).check(matches(withText(R.string.albums_label)))
 
         // Check for album names or the "no albums" message
         onView(
