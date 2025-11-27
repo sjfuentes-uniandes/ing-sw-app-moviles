@@ -105,9 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
-                    android:hint="@string/insertar_artista"
-                    android:contentDescription="@string/insertar_artista"
-                    tools:ignore="ContentDescription" />
+                    android:hint="@string/insertar_artista" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Description -->
