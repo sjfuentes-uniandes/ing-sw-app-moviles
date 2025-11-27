@@ -14,14 +14,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="8dp"
-        android:contentDescription="@{`Album item: ` + album.name + ` by ` + album.recordLabel}">
+        android:contentDescription="@{`Album ` + album.albumId + ` - ` + album.name + ` (` + album.recordLabel + `)`}">
 
         <ImageView
             android:id="@+id/albumCover"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:background="#F5F5F5"
+            android:background="#BDBDBD"
             android:contentDescription="@{`Album ` + album.albumId + `: ` + album.name + ` by ` + album.recordLabel}" />
 
         <TextView

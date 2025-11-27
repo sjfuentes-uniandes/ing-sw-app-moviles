@@ -56,6 +56,7 @@
     <string name="telephone_label">Telefono del coleccionista</string>
     <string name="email_label">Email del coleccionista</string>
     <string name="albums_label">Albums del coleccionista</string>
+    <string name="browse_artists">Browse artists</string>
     <string-array name="genre_options">
         <item>Classical</item>
         <item>Salsa</item>

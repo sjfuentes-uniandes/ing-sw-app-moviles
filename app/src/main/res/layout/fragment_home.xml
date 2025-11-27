@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:minHeight="56dp"
             android:text="@string/artists"
-            android:contentDescription="@string/artists_section_button"
+            android:contentDescription="@string/browse_artists"
             android:textSize="16sp"
             android:textColor="#333333"
             android:background="@drawable/rounded_border"
