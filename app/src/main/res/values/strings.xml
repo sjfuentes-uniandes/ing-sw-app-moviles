@@ -44,9 +44,10 @@
     <string name="album">Album</string>
     <string name="release_date">Release Date</string>
     <string name="genre">Genre</string>
-    <string name="collector_name">Collectors name</string>
-    <string name="telephone">Telephone</string>
-    <string name="email">Email</string>
+    <string name="collector_name_label">Nombre del coleccionista</string>
+    <string name="telephone_label">Telefono del coleccionista</string>
+    <string name="email_label">Email del coleccionista</string>
+    <string name="albums_label">Albums del coleccionista</string>
     <string-array name="genre_options">
         <item>Classical</item>
         <item>Salsa</item>

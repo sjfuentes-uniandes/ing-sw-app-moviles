@@ -9,10 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.vinilos.R
 import com.example.vinilos.databinding.FragmentCollectorDetailBinding
 import com.example.vinilos.viemodels.CollectorDetailViewModel
-import com.bumptech.glide.Glide
 import android.widget.TextView
 
 class CollectorDetailFragment : Fragment() {
@@ -49,10 +47,14 @@ class CollectorDetailFragment : Fragment() {
         viewModel.collector.observe(viewLifecycleOwner) { collector ->
             Log.d("CollectorDetailFragment", "Coleccionista recibido: ${collector.name}")
 
-            binding.collectorTitle.text = collector.name + "'s Details"
+            binding.collectorTitle.text = "Detalle del coleccionista ${collector.name}"
+            binding.collectorTitle.contentDescription = "Detalle del coleccionista ${collector.name}"
             binding.collectorName.text = collector.name
+            binding.collectorName.contentDescription = "Nombre del coleccionista: ${collector.name}"
             binding.collectorTelephone.text = collector.telephone
+            binding.collectorTelephone.contentDescription = "Teléfono del coleccionista: ${collector.telephone}"
             binding.collectorEmail.text = collector.email
+            binding.collectorEmail.contentDescription = "Correo electrónico del coleccionista: ${collector.email}"
         }
 
         viewModel.collectorAlbumNames.observe(viewLifecycleOwner) { albumNames ->
@@ -61,6 +63,7 @@ class CollectorDetailFragment : Fragment() {
             if (albumNames.isEmpty()) {
                 val emptyText = TextView(requireContext())
                 emptyText.text = "Este coleccionista no tiene albumes registrados"
+                emptyText.contentDescription = "Este coleccionista no tiene albumes registrados"
                 emptyText.textSize = 12f
                 binding.albumsContainer.addView(emptyText)
                 return@observe
@@ -69,6 +72,7 @@ class CollectorDetailFragment : Fragment() {
             albumNames.forEach { name ->
                 val tv = TextView(requireContext())
                 tv.text = "• $name"
+                tv.contentDescription = "Álbum: $name"
                 tv.textSize = 12f
                 tv.setPadding(0, 4, 0, 4)
                 binding.albumsContainer.addView(tv)
