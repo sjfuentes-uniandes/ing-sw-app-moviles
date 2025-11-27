@@ -1,6 +1,7 @@
 package com.example.vinilos.ui.collectors
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vinilos.R
@@ -30,7 +33,15 @@ class CollectorsFragment: Fragment() {
     ): View? {
         _binding = FragmentCollectorsBinding.inflate(inflater, container, false)
         val view = binding.root
-        viewModelAdapter = CollectorsAdapter()
+        
+        viewModelAdapter = CollectorsAdapter{ collector ->
+            Log.d("CollectorsFragment", "Collector seleccionado: ${collector.name} con ID: ${collector.collectorId}")
+            val bundle = Bundle().apply {
+                putInt("collectorId", collector.collectorId)
+            }
+            findNavController().navigate(R.id.action_collectors_to_collectorsDetail, bundle) 
+        }
+
         return view
     }
 

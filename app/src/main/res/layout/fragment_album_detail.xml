@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true">
 
     <!-- Header con back button y nombre del album -->
     <LinearLayout
@@ -119,9 +120,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:textSize="12sp"
-                app:layout_constraintTop_toTopOf="@id/releaseDateLabel"
-                app:layout_constraintStart_toEndOf="@id/releaseDateLabel"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/releaseDateLabel"
+                app:layout_constraintTop_toTopOf="@id/releaseDateLabel"
                 tools:text="2020-01-01" />
             <TextView
                 android:id="@+id/releaseDateLabel"

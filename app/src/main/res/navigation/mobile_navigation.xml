@@ -57,7 +57,16 @@
         android:id="@+id/navigation_collector"
         android:name="com.example.vinilos.ui.collectors.CollectorsFragment"
         android:label="Collectors"
-        tools:layout="@layout/fragment_collectors" />
+        tools:layout="@layout/fragment_collectors"> 
+        <action
+            android:id="@+id/action_collectors_to_collectorsDetail"
+            app:destination="@id/collectorDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/collectorDetailFragment"
+        android:name="com.example.vinilos.ui.collectors.CollectorDetailFragment"
+        android:label="Collector Detail"
+        tools:layout="@layout/fragment_collector_detail" />
     <fragment
         android:id="@+id/navigation_user"
         android:name="com.example.vinilos.ui.notifications.NotificationsFragment"
