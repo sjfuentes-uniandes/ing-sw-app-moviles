@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:id="@+id/header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:paddingBottom="12dp"
+        tools:paddingEnd="12dp"
+        tools:paddingStart="12dp"
+        tools:paddingTop="24dp">
+
+        <!-- Back button -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back_to_collectors"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            app:tint="@color/black"
+            app:srcCompat="@drawable/ic_less_than" />
+
+        <!-- Collector name with auto-resize for different system scales -->
+        <TextView
+            android:id="@+id/collectorTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeMinTextSize="14sp"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
+            android:contentDescription="@null"
+            tools:text="Collector Name Very Long Example" />
+
+        <!-- Empty space for balance -->
+        <View
+            android:layout_width="48dp"
+            android:layout_height="48dp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header_layout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/collectorNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/collector_name_label"
+                android:contentDescription="@string/collector_name_label"
+                android:textColor="#424242"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <TextView
+                android:id="@+id/collectorName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/collectorNameLabel"
+                app:layout_constraintTop_toTopOf="@id/collectorNameLabel"
+                tools:layout_constraintTop_toTopOf="@id/collectorNameLabel"
+                tools:text="Collector's name goes here" />
+
+            <TextView
+                android:id="@+id/collectorTelephoneLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/telephone_label"
+                android:contentDescription="@string/telephone_label"
+                android:textColor="#424242"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/collectorNameLabel" />
+
+            <TextView
+                android:id="@+id/collectorTelephone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/collectorTelephoneLabel"
+                app:layout_constraintTop_toTopOf="@id/collectorTelephoneLabel"
+                tools:layout_constraintTop_toTopOf="@id/collectorTelephoneLabel"
+                tools:text="9999999999999" />
+
+            <TextView
+                android:id="@+id/collectorEmailLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/email_label"
+                android:contentDescription="@string/email_label"
+                android:textColor="#424242"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/collectorTelephoneLabel" />
+
+            <TextView
+                android:id="@+id/collectorEmail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/collectorEmailLabel"
+                app:layout_constraintTop_toTopOf="@id/collectorEmailLabel"
+                tools:layout_constraintTop_toTopOf="@id/collectorEmailLabel"
+                tools:text="collector@example.com" />
+
+            <TextView
+                android:id="@+id/albumsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/albums_label"
+                android:contentDescription="@string/albums_label"
+                android:textColor="#424242"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/collectorEmailLabel" />
+
+            <LinearLayout
+                android:id="@+id/albumsContainer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/albumsLabel"
+                tools:layout_constraintEnd_toEndOf="parent"></LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

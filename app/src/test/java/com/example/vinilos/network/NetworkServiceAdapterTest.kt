@@ -88,4 +88,67 @@ class NetworkServiceAdapterTest {
         val expectedPath = "albums/$albumId"
         assertEquals("albums/456", expectedPath)
     }
+
+    @Test
+    fun `collector detail endpoint path is correct`() {
+        val albumId = 123
+        val expectedPath = "collectors/$albumId"
+        assertEquals("collectors/123", expectedPath)
+    }
+
+    @Test
+    fun `collectors album names endpoint path is correct`() {
+        val albumId = 123
+        val expectedPath = "collectors/$albumId/albums"
+        assertEquals("collectors/123/albums", expectedPath)
+    }
+
+    @Test
+    fun `getCollectorDetail constructs correct URL`() {
+        val artistId = 100
+        val expectedUrl = "${NetworkServiceAdapter.BASE_URL}collectors/$artistId"
+        assertEquals("https://vinilos-backend-5f9h.onrender.com/collectors/100", expectedUrl)
+    }
+
+    @Test
+    fun `getCollectorAlbumNames constructs correct URL`() {
+        val artistId = 100
+        val expectedUrl = "${NetworkServiceAdapter.BASE_URL}collectors/$artistId/albums"
+        assertEquals("https://vinilos-backend-5f9h.onrender.com/collectors/100/albums", expectedUrl)
+    }
+
+    @Test
+    fun `getCollectorDetail method exists in NetworkServiceAdapter`() {
+        val method = NetworkServiceAdapter::class.java.declaredMethods.find {
+            it.name == "getCollectorDetail"
+        }
+        assertNotNull("Method getCollectorDetail should exist", method)
+    }
+
+    @Test
+    fun `getCollectorAlbumNames method exists in NetworkServiceAdapter`() {
+        val method = NetworkServiceAdapter::class.java.declaredMethods.find {
+            it.name == "getCollectorAlbumNames"
+        }
+        assertNotNull("Method getCollectorAlbumNames should exist", method)
+    }
+
+    @Test
+    fun `getCollectorDetail has correct parameters`() {
+        val method = NetworkServiceAdapter::class.java.declaredMethods.find {
+            it.name == "getCollectorDetail"
+        }
+        assertNotNull(method)
+        assertEquals(3, method?.parameterCount)
+    }
+
+    @Test
+    fun `getCollectorAlbumNames has correct parameters`() {
+        val method = NetworkServiceAdapter::class.java.declaredMethods.find {
+            it.name == "getCollectorAlbumNames"
+        }
+        assertNotNull(method)
+        assertEquals(3, method?.parameterCount)
+    }
+
 }
