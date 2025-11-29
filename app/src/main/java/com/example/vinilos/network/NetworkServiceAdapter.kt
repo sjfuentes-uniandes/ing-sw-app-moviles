@@ -11,6 +11,7 @@ import com.android.volley.toolbox.Volley
 import com.example.vinilos.models.Album
 import com.example.vinilos.models.Artist
 import com.example.vinilos.models.Collector
+import com.example.vinilos.models.CollectorAlbum
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -200,6 +201,45 @@ class NetworkServiceAdapter constructor(context: Context){
         )
     }
 
+    fun getCollectorDetail(
+        collectorId: Int,
+        onComplete: (Collector) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        val path = "collectors/$collectorId"
+        val url = BASE_URL + path
+        Log.d("NetworkServiceAdapter", "Solicitando detalle del coleccionista: $url")
+
+        requestQueue.add(
+            StringRequest(
+                Request.Method.GET,
+                url,
+                { response ->
+                    try {
+                        Log.d("NetworkServiceAdapter", "Respuesta recibida: $response")
+                        val json = JSONObject(response)
+                        val collector = Collector(
+                            collectorId = json.getInt("id"),
+                            name = json.getString("name"),
+                            telephone = json.getString("telephone"),
+                            email = json.getString("email")
+                        )
+                        Log.d("NetworkServiceAdapter", "Coleccionista parseado correctamente: ${collector.name}")
+                        onComplete(collector)
+
+                    } catch (e: Exception) {
+                        Log.e("NetworkServiceAdapter", "Error al parsear respuesta: ${e.message}", e)
+                        onError(VolleyError("Error al parsear respuesta: ${e.message}"))   
+                    }
+                },
+                { error -> 
+                    Log.e("NetworkServiceAdapter", "Error en la petición: $(error.message)", error)
+                    onError(error)
+                }
+            )
+        )
+    }
+
     fun createAlbum(
         name: String,
         cover: String,
@@ -371,6 +411,65 @@ class NetworkServiceAdapter constructor(context: Context){
         )
 
         requestQueue.add(request)
+    fun getCollectorAlbums(
+        collectorId: Int,
+        onComplete: (resp: List<CollectorAlbum>) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        val path = "collectors/$collectorId/albums"
+        requestQueue.add(
+            getRequest(
+                path,
+                { response ->
+                    val resp = JSONArray(response)
+                    val list = mutableListOf<CollectorAlbum>()
+                    for (i in 0 until resp.length()) {
+                        val item = resp.getJSONObject(i)
+                        val collector = item.getJSONObject("collector")
+                        val album = item.getJSONObject("album")
+                        val collectorAlbum = CollectorAlbum(
+                            collector_albumId = item.getInt("id"),
+                            price = item.getInt("price"),
+                            status = item.getString("status"),
+                            collectorId = collector.getInt("collectorId"),
+                            albumId = album.getInt("albumId")
+                        )
+                        list.add(collectorAlbum)
+                    }
+                    onComplete(list)
+                },
+                {
+                    onError(it)
+                }
+            )
+        )
+    }
+
+    fun getCollectorAlbumNames(
+        collectorId: Int,
+        onComplete: (resp: List<String>) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        val path = "collectors/$collectorId/albums"
+        requestQueue.add(
+            getRequest(
+                path,
+                { response ->
+                    val resp = JSONArray(response)
+                    val albumNames = mutableListOf<String>()
+                    for (i in 0 until resp.length()) {
+                        val item = resp.getJSONObject(i)
+                        val album = item.getJSONObject("album")
+                        val albumName = album.getString("name")
+                        albumNames.add(albumName)
+                    }
+                    onComplete(albumNames)
+                },
+                {
+                    onError(it)
+                }
+            )
+        )
     }
 
     private fun getRequest(path:String, responseListener: Response.Listener<String>, errorListener: Response.ErrorListener): StringRequest {
