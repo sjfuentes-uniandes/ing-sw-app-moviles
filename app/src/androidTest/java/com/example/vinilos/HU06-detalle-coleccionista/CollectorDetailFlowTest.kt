@@ -64,7 +64,7 @@ class CollectorDetailFlowTest {
         onView(
             anyOf(
                 allOf(
-                    withText("Este coleccionista no tiene albumes registrados"),
+                    withText(R.string.no_albums_found),
                     withParent(withId(R.id.albumsContainer))
                 ),
                 allOf(

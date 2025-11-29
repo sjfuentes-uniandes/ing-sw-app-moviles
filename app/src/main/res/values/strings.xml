@@ -57,6 +57,10 @@
     <string name="email_label">Email del coleccionista</string>
     <string name="albums_label">Albums del coleccionista</string>
     <string name="browse_artists">Browse artists</string>
+    <string name="collector_name_title">Detalle del coleccionista %1$s</string>
+    <string name="no_albums_found">Este coleccionista no tiene albumes registrados</string>
+    <string name="album_with_bullet">• %1$s</string>
+    <string name="album_collector_description">Álbum: %1$s</string>
     <string-array name="genre_options">
         <item>Classical</item>
         <item>Salsa</item>
