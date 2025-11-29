@@ -14,7 +14,8 @@
     <item
         android:id="@+id/navigation_artists"
         android:icon="@drawable/mic"
-        android:title="@string/artists" />
+        android:title="@string/artists"
+        android:contentDescription="@string/artists" />
 
     <item
         android:id="@+id/navigation_collector"

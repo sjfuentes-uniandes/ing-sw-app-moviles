@@ -13,14 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:contentDescription="@{`Collector: ` + collector.name + ` (` + collector.email + `)`}">
 
         <ImageView
             android:id="@+id/collectorImage"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:background="@color/white"
+            android:background="#F5F5F5"
             android:contentDescription="@string/collector_image"/>
 
         <TextView
@@ -29,7 +30,7 @@
             android:layout_marginTop="8dp"
             android:text="@{collector.email}"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="#666666" />
 
         <TextView
             android:layout_width="match_parent"
