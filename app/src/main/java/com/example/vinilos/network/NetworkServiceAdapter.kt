@@ -411,6 +411,8 @@ class NetworkServiceAdapter constructor(context: Context){
         )
 
         requestQueue.add(request)
+    }
+
     fun getCollectorAlbums(
         collectorId: Int,
         onComplete: (resp: List<CollectorAlbum>) -> Unit,
