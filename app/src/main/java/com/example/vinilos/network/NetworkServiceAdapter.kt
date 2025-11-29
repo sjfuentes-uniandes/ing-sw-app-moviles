@@ -194,7 +194,7 @@ class NetworkServiceAdapter constructor(context: Context){
                     }
                 },
                 { error -> 
-                    Log.e("NetworkServiceAdapter", "Error en la petición: $(error.message)", error)
+                    Log.e("NetworkServiceAdapter", "Error en la petición: ${error.message}", error)
                     onError(error)
                 }
             )
