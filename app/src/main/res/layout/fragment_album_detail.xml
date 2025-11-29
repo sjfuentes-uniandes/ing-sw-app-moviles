@@ -43,7 +43,8 @@
         <!-- Espacio vacío para balance -->
         <View
             android:layout_width="32dp"
-            android:layout_height="32dp" />
+            android:layout_height="32dp"
+            android:importantForAccessibility="no" />
 
     </LinearLayout>
 
@@ -76,6 +77,7 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:scaleType="centerCrop"
+                android:background="#424242"
                 android:contentDescription="@string/album_cover"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -130,6 +132,7 @@
                 android:text="@string/release_date"
                 android:textSize="14sp"
                 android:textStyle="bold"
+                android:textColor="#424242"
                 app:layout_constraintTop_toBottomOf="@id/albumCover"
                 app:layout_constraintStart_toStartOf="parent" />
 

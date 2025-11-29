@@ -12,7 +12,7 @@
     
     <!-- X mark -->
     <path
-        android:strokeColor="#9E9E9E"
+        android:strokeColor="#424242"
         android:strokeWidth="4"
         android:strokeLineCap="round"
         android:pathData="M60,60L140,140M140,60L60,140" />
