@@ -101,27 +101,12 @@
                 android:text="@string/album"
                 android:textSize="11sp"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="12sp"
-                android:textColor="#424242"
                 app:layout_constraintTop_toBottomOf="@id/albumName"
                 app:layout_constraintStart_toEndOf="@id/albumCover"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <!-- Fecha de release -->
             <TextView
-<<<<<<< HEAD
-=======
-                android:id="@+id/albumReleaseDate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/releaseDateLabel"
-                app:layout_constraintTop_toTopOf="@id/releaseDateLabel"
-                tools:text="2020-01-01" />
-            <TextView
->>>>>>> f7295f725d1c1fffa53faf0e2bbc5efa3582a291
                 android:id="@+id/releaseDateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -129,7 +114,6 @@
                 android:text="@string/release_date"
                 android:textSize="13sp"
                 android:textStyle="bold"
-                android:textColor="#424242"
                 app:layout_constraintTop_toBottomOf="@id/albumCover"
                 app:layout_constraintStart_toStartOf="parent" />
 
