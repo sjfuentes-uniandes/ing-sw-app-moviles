@@ -83,6 +83,9 @@ class AlbumsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // Limpiar adapter para liberar ViewHolders
+        recyclerView.adapter = null
+        viewModelAdapter = null
         _binding = null
     }
 

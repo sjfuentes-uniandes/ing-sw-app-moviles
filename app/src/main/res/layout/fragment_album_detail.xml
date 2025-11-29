@@ -58,24 +58,16 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="16dp">
 
             <!-- Cubierta del álbum -->
-            <TextView
-                android:id="@+id/albumGenre"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:textSize="14sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/genreLabel"
-                app:layout_constraintTop_toTopOf="@id/genreLabel"
-                tools:text="Genre goes here" />
-
             <ImageView
                 android:id="@+id/albumCover"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:scaleType="centerCrop"
                 android:background="#424242"
                 android:contentDescription="@string/album_cover"
@@ -88,9 +80,9 @@
                 android:id="@+id/albumName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:textSize="20sp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:gravity="start"
@@ -103,78 +95,142 @@
                 android:id="@+id/albumNameLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="2dp"
                 android:text="@string/album"
-                android:textSize="12sp"
-                android:textColor="#424242"
+                android:textSize="11sp"
+                android:textColor="@android:color/darker_gray"
                 app:layout_constraintTop_toBottomOf="@id/albumName"
                 app:layout_constraintStart_toEndOf="@id/albumCover"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <!-- Fecha de release -->
             <TextView
+                android:id="@+id/releaseDateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/release_date"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/albumCover"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
                 android:id="@+id/albumReleaseDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/releaseDateLabel"
                 app:layout_constraintTop_toTopOf="@id/releaseDateLabel"
+                app:layout_constraintStart_toEndOf="@id/releaseDateLabel"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:text="2020-01-01" />
-            <TextView
-                android:id="@+id/releaseDateLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/release_date"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="#424242"
-                app:layout_constraintTop_toBottomOf="@id/albumCover"
-                app:layout_constraintStart_toStartOf="parent" />
 
             <!-- Género -->
             <TextView
                 android:id="@+id/genreLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="0dp"
                 android:text="@string/genre"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/releaseDateLabel"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <!-- Descripción -->
+            <TextView
+                android:id="@+id/albumGenre"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/genreLabel"
+                app:layout_constraintTop_toTopOf="@id/genreLabel"
+                tools:text="Genre goes here" />
+
+            <!-- Descripción - Más visible -->
             <TextView
                 android:id="@+id/albumDescription"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textSize="13sp"
+                android:minLines="1"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/genreLabel"
+                tools:text="Album description goes here and continues with more text" />
+
+            <!-- Sección de Tracks - Espacio balanceado -->
+            <LinearLayout
+                android:id="@+id/tracksHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toBottomOf="@id/albumDescription"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:id="@+id/tracksLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/tracks"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabAddTrack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/add_track"
+                    app:fabSize="mini"
+                    app:srcCompat="@android:drawable/ic_input_add"
+                    app:backgroundTint="@color/black"
+                    app:tint="@android:color/white" />
+
+            </LinearLayout>
+
+            <!-- Mensaje cuando no hay tracks -->
+            <TextView
+                android:id="@+id/emptyTracksMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/no_tracks_yet"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray"
+                android:textStyle="italic"
+                android:gravity="center"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/tracksHeader"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Lista de Tracks - Con pequeño margen superior -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tracksRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="24dp"
-                android:lineSpacingExtra="4dp"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintTop_toBottomOf="@id/tracksHeader"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/descriptionLabel"
-                app:layout_constraintVertical_bias="0.014"
-                tools:text="Album description goes here" />
-
-            <TextView
-                android:id="@+id/descriptionLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/description"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/genreLabel"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:listitem="@layout/item_track"
+                tools:itemCount="3" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,7 +38,11 @@
         android:id="@+id/albumDetailFragment"
         android:name="com.example.vinilos.ui.albums.AlbumDetailFragment"
         android:label="Album Detail"
-        tools:layout="@layout/fragment_album_detail" />
+        tools:layout="@layout/fragment_album_detail">
+        <action
+            android:id="@+id/action_albumDetailFragment_to_addTrackFragment"
+            app:destination="@id/addTrackFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_artists"
         android:name="com.example.vinilos.ui.artists.ArtistsFragment"
@@ -78,5 +82,11 @@
         android:name="com.example.vinilos.ui.albums.AddAlbumFragment"
         android:label="Add Album"
         tools:layout="@layout/fragment_add_albums" />
+
+    <fragment
+        android:id="@+id/addTrackFragment"
+        android:name="com.example.vinilos.ui.albums.AddTrackFragment"
+        android:label="@string/add_track_title"
+        tools:layout="@layout/fragment_add_track" />
 
 </navigation>

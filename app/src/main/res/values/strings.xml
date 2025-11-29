@@ -70,4 +70,19 @@
         <item>Elektra</item>
         <item>Fania Records</item>
     </string-array>
+
+    <!-- Track strings -->
+    <string name="add_track">Asociar Tracks</string>
+    <string name="no_tracks_yet">No hay tracks en este álbum aún</string>
+    <string name="add_track_title">Agregar Track</string>
+    <string name="track_name">Nombre de la canción</string>
+    <string name="track_name_hint">Ej: Decisiones</string>
+    <string name="track_duration">Duración</string>
+    <string name="track_duration_hint">Ej: 5:05</string>
+    <string name="save_song">Save Song</string>
+    <string name="track_added_successfully">Track agregado exitosamente</string>
+    <string name="error_adding_track">Error al agregar el track</string>
+    <string name="error_track_name_required">El nombre de la canción es requerido</string>
+    <string name="error_track_duration_required">La duración es requerida</string>
+    <string name="error_invalid_duration_format">Formato de duración inválido. Usa M:SS o MM:SS</string>
 </resources>
