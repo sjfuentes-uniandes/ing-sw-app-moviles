@@ -12,10 +12,11 @@
 
     <TextView
         android:id="@+id/trackNumber"
-        android:layout_width="40dp"
+        android:layout_width="wrap_content"
+        android:minWidth="40dp"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"
+        android:textStyle="bold"
         android:gravity="center"
         tools:text="1" />
 
@@ -42,7 +43,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"
         android:layout_marginStart="8dp"
         tools:text="5:05" />
 
