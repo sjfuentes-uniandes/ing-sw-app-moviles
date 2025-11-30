@@ -3,7 +3,7 @@ Repositorio de equipo para el desarrollo del proyecto de aplicación móviles
 
 ## 📱 Descargar APK
 
-**APK Release 2**: [Descargar Vinilos.apk](./app/release/app-release.apk)
+**APK Release 3**: [Descargar Vinilos.apk](./app/release/app-release.apk)
 
 ## 🛠️ Construcción Local
 
