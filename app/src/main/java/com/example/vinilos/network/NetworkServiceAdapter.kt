@@ -157,16 +157,34 @@ class NetworkServiceAdapter constructor(context: Context){
                     try {
                         Log.d("NetworkServiceAdapter", "Respuesta recibida: $response")
                         val json = JSONObject(response)
+
+                        // Parsear tracks si existen
+                        val tracksList = mutableListOf<com.example.vinilos.models.Track>()
+                        if (json.has("tracks")) {
+                            val tracksArray = json.getJSONArray("tracks")
+                            for (i in 0 until tracksArray.length()) {
+                                val trackJson = tracksArray.getJSONObject(i)
+                                val track = com.example.vinilos.models.Track(
+                                    id = trackJson.getInt("id"),
+                                    name = trackJson.getString("name"),
+                                    duration = trackJson.getString("duration"),
+                                    albumId = json.getInt("id")
+                                )
+                                tracksList.add(track)
+                            }
+                        }
+
                         val album = Album(
-                            albumId =json.getInt("id"),
+                            albumId = json.getInt("id"),
                             name = json.getString("name"),
                             cover = json.getString("cover"),
                             releaseDate = json.getString("releaseDate"),
                             description = json.getString("description"),
                             genre = json.getString("genre"),
-                            recordLabel = json.getString("recordLabel")
+                            recordLabel = json.getString("recordLabel"),
+                            tracks = tracksList
                         )
-                        Log.d("NetworkServiceAdapter", "Album parseado correctamente: ${album.name}")
+                        Log.d("NetworkServiceAdapter", "Album parseado correctamente: ${album.name} con ${tracksList.size} tracks")
                         onComplete(album)
 
                     } catch (e: Exception) {
@@ -175,7 +193,7 @@ class NetworkServiceAdapter constructor(context: Context){
                     }
                 },
                 { error -> 
-                    Log.e("NetworkServiceAdapter", "Error en la petición: $(error.message)", error)
+                    Log.e("NetworkServiceAdapter", "Error en la petición: ${error.message}", error)
                     onError(error)
                 }
             )
@@ -310,6 +328,127 @@ class NetworkServiceAdapter constructor(context: Context){
         requestQueue.add(request)
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * Asocia un nuevo track a un álbum existente
+     * POST /albums/{albumId}/tracks
+     */
+    fun addTrackToAlbum(
+        albumId: Int,
+        trackName: String,
+        trackDuration: String,
+        onComplete: (success: Boolean) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        val jsonBody = JSONObject().apply {
+            put("name", trackName)
+            put("duration", trackDuration)
+        }
+
+        val requestBody = jsonBody.toString()
+        val url = "${BASE_URL}albums/$albumId/tracks"
+
+        Log.d("NetworkServiceAdapter", "Agregando track a: $url")
+        Log.d("NetworkServiceAdapter", "Body: $requestBody")
+
+        val request = object : StringRequest(
+            Request.Method.POST,
+            url,
+            { response ->
+                try {
+                    Log.d("NetworkServiceAdapter", "✅ Track agregado exitosamente: $response")
+                    onComplete(true)
+                } catch (e: Exception) {
+                    Log.e("NetworkServiceAdapter", "Error al parsear respuesta: ${e.message}", e)
+                    onError(VolleyError("Error parsing response: ${e.message}", e))
+                }
+            },
+            { error ->
+                val statusCode = error.networkResponse?.statusCode ?: 0
+                val errorMessage = when {
+                    error.networkResponse != null -> {
+                        val errorBody = try {
+                            String(error.networkResponse.data, Charsets.UTF_8)
+                        } catch (e: Exception) {
+                            "Could not parse error body"
+                        }
+                        "HTTP $statusCode: $errorBody"
+                    }
+                    error.message != null -> {
+                        error.message ?: "Unknown error"
+                    }
+                    else -> {
+                        "Could not retrieve response code from HttpUrlConnection"
+                    }
+                }
+
+                Log.e("NetworkServiceAdapter", "❌ Error al agregar track: $errorMessage (HTTP $statusCode)", error)
+
+                // Reportar error REAL sin simulación
+                onError(VolleyError(errorMessage, error))
+            }
+        ) {
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Content-Type"] = "application/json; charset=utf-8"
+                headers["Accept"] = "application/json"
+                return headers
+            }
+
+            override fun getBody(): ByteArray {
+                return requestBody.toByteArray(Charsets.UTF_8)
+            }
+
+            override fun getBodyContentType(): String {
+                return "application/json; charset=utf-8"
+            }
+        }
+
+        request.retryPolicy = com.android.volley.DefaultRetryPolicy(
+            30000,
+            2,
+            com.android.volley.DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+
+        requestQueue.add(request)
+    }
+
+    fun getCollectorAlbums(
+        collectorId: Int,
+        onComplete: (resp: List<CollectorAlbum>) -> Unit,
+        onError: (error: VolleyError) -> Unit
+    ) {
+        val path = "collectors/$collectorId/albums"
+        requestQueue.add(
+            getRequest(
+                path,
+                { response ->
+                    val resp = JSONArray(response)
+                    val list = mutableListOf<CollectorAlbum>()
+                    for (i in 0 until resp.length()) {
+                        val item = resp.getJSONObject(i)
+                        val collector = item.getJSONObject("collector")
+                        val album = item.getJSONObject("album")
+                        val collectorAlbum = CollectorAlbum(
+                            collector_albumId = item.getInt("id"),
+                            price = item.getInt("price"),
+                            status = item.getString("status"),
+                            collectorId = collector.getInt("collectorId"),
+                            albumId = album.getInt("albumId")
+                        )
+                        list.add(collectorAlbum)
+                    }
+                    onComplete(list)
+                },
+                {
+                    onError(it)
+                }
+            )
+        )
+    }
+
+>>>>>>> 49a652824d37370308072af034ad9181364c6bec
     fun getCollectorAlbumNames(
         collectorId: Int,
         onComplete: (resp: List<String>) -> Unit,
