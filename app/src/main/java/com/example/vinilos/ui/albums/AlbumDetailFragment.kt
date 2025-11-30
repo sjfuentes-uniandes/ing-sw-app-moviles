@@ -47,7 +47,7 @@ class AlbumDetailFragment : Fragment() {
 
         viewModel.album.observe(viewLifecycleOwner) { album ->
             Log.d("AlbumDetailFragment", "Álbum recibido: ${album.name}")
-            binding.albumTitle.text = album.name
+            binding.albumTitle.text = getString(R.string.album_name_title, album.name)
             binding.albumName.text = album.name
             binding.albumReleaseDate.text = album.releaseDate
             binding.albumDescription.text = album.description
