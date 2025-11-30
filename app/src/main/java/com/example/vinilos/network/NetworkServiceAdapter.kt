@@ -328,8 +328,6 @@ class NetworkServiceAdapter constructor(context: Context){
         requestQueue.add(request)
     }
 
-<<<<<<< HEAD
-=======
     /**
      * Asocia un nuevo track a un álbum existente
      * POST /albums/{albumId}/tracks
@@ -414,41 +412,6 @@ class NetworkServiceAdapter constructor(context: Context){
         requestQueue.add(request)
     }
 
-    fun getCollectorAlbums(
-        collectorId: Int,
-        onComplete: (resp: List<CollectorAlbum>) -> Unit,
-        onError: (error: VolleyError) -> Unit
-    ) {
-        val path = "collectors/$collectorId/albums"
-        requestQueue.add(
-            getRequest(
-                path,
-                { response ->
-                    val resp = JSONArray(response)
-                    val list = mutableListOf<CollectorAlbum>()
-                    for (i in 0 until resp.length()) {
-                        val item = resp.getJSONObject(i)
-                        val collector = item.getJSONObject("collector")
-                        val album = item.getJSONObject("album")
-                        val collectorAlbum = CollectorAlbum(
-                            collector_albumId = item.getInt("id"),
-                            price = item.getInt("price"),
-                            status = item.getString("status"),
-                            collectorId = collector.getInt("collectorId"),
-                            albumId = album.getInt("albumId")
-                        )
-                        list.add(collectorAlbum)
-                    }
-                    onComplete(list)
-                },
-                {
-                    onError(it)
-                }
-            )
-        )
-    }
-
->>>>>>> 49a652824d37370308072af034ad9181364c6bec
     fun getCollectorAlbumNames(
         collectorId: Int,
         onComplete: (resp: List<String>) -> Unit,
